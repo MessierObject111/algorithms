@@ -42,8 +42,8 @@ public class ClosestBinarySearchTreeValue {
             return 0;
         }
 
-        TreeNode closestLow = findLowerBound(root.left, target);
-        TreeNode closestHigh = findHigherBound(root.right, target);
+        TreeNode closestLow = lowerBound(root, target);
+        TreeNode closestHigh = upperBound(root, target);
         if(closestLow == null) {
             return closestHigh.val;
         }
@@ -59,50 +59,56 @@ public class ClosestBinarySearchTreeValue {
 
     /**
      * FIND THE biggest node that is smaller than target.
-     * @param root
+     * @param node
      * @param target
      * @return
      */
-    private TreeNode findLowerBound (TreeNode root, double target) {
-        if (root == null) {
+    private TreeNode lowerBound (TreeNode node, double target) {
+        /*
+        The reason why the null check happens inside the function call, rather than checking if branch is null before
+        calling?
+         */
+        if (node == null) {
             return null;
         }
 
-        if (target <= root.val) {
-            return findLowerBound(root.left, target);
+        if (target <= node.val) {
+            if (node.left != null) return lowerBound(node.left, target);
+            if (node.left == null) return null;
+        }
+        if (node.val < target) {
+            TreeNode lowerNode = lowerBound(node.right, target);
+            if (lowerNode != null) {
+                return lowerNode;
+            }
         }
 
-        // root.val < target
-        TreeNode lowerNode = findLowerBound(root.right, target);
-        if (lowerNode != null) {
-            return lowerNode;
-        }
-
-        return root;
+        return node;
     }
 
     /**
      * Find the smallest node that is bigger than target.
-     * @param root
+     * @param node
      * @param target
      * @return
      */
-    private TreeNode findHigherBound (TreeNode root, double target) {
-        if (root == null) {
+    private TreeNode upperBound (TreeNode node, double target) {
+        if (node == null) {
             return null;
         }
 
-        if (root.val < target) {
-            return findHigherBound(root.right, target);
+        if (node.val < target) {
+            if(node.right != null) return upperBound(node.right, target);
+            if (node.right == null) return null;
         }
 
-        // root.val >= target
-        TreeNode upperNode = findHigherBound(root.left, target);
-        if (upperNode != null) {
-            return upperNode;
+        if (node.val >= target) {
+            TreeNode upperNode = upperBound(node.left, target);
+            if (upperNode != null) {
+                return upperNode;
+            }
         }
-
-        return root;
+        return node;
     }
 
     public static void main(String[] args) {
@@ -121,9 +127,15 @@ public class ClosestBinarySearchTreeValue {
         node_1a.left = node_2a;
         node_1b.left = node_2c;
         node_1b.right = node_2d;
-
+/**
+ *  *         5
+ *  *        / \
+ *  *      4    9
+ *  *     /    / \
+ *  *    2    8  10
+ */
         ClosestBinarySearchTreeValue instance = new ClosestBinarySearchTreeValue();
-        System.out.println(instance.closestValue(root, 6.12));
+        System.out.println(instance.closestValue(root, 6.12));//Expects 5
     }
 
 }
