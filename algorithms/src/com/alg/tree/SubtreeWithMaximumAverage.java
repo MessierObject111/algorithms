@@ -1,7 +1,7 @@
 package com.alg.tree;
 
 import com.alg.common.TreeNode;
-import sun.reflect.generics.tree.Tree;
+
 
 /**
  * 597. Subtree with Maximum Average
