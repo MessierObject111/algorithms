@@ -52,18 +52,22 @@ public class ClosestBinarySearchTreeValueII {
         int i = 0, n = values.size();
         for (; i < n; i++) {
             if (values.get(i) >= target) {
+                // Set the pointer i next to the closest node to target
                 break;
             }
         }
 
+        // If i is larger than the max node (larger than the sorted list size), then just return the sublist
         if (i >= n) {
             return values.subList(n - k, n);
         }
 
         int left = i - 1, right = i;
         List<Integer> result = new ArrayList<>();
-        for (i = 0; i < k; i++) {
-            if (left >= 0 && (right >= n || target - values.get(left) < values.get(right) - target)) {
+
+        for(i = 0; i < k; i++) {
+            if (left >= 0 && (right >= n ||
+                    Math.abs(target - values.get(left)) < Math.abs(target - values.get(right))) ) {
                 result.add(values.get(left));
                 left--;
             } else {
@@ -84,6 +88,7 @@ public class ClosestBinarySearchTreeValueII {
         values.add(root.val);
         traverse(root.right, values);
     }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(5);
 
@@ -120,6 +125,6 @@ public class ClosestBinarySearchTreeValueII {
  *     1   3 6   7
  */
         ClosestBinarySearchTreeValueII instance = new ClosestBinarySearchTreeValueII();
-        System.out.println(instance.closestKValues(root, 3.12, 3));//Expects True
+        System.out.println(instance.closestKValues(root, 3.12, 5));//Expects [3, 4, 2, 5, 1]
     }
 }
