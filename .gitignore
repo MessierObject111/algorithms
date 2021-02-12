@@ -1,4 +1,9 @@
 /algorithms/.idea/
+/algorithms/backups/
+
+# MacOS
+.DS_Store
+
 # Compiled class file
 *.class
 
