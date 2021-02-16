@@ -1,11 +1,9 @@
 package com.java.se.priorityQueue;
 
-import com.sun.tools.corba.se.idl.constExpr.Or;
-
 import java.util.*;
 
-public class OrderByPriorityTest {
-    class DebtAccount implements Comparable{
+public class ComparableObjectsPriorityQueueTest {
+    class DebtAccount implements Comparable <DebtAccount>{
         double balance;
         private String accountUuid;
 
@@ -25,14 +23,20 @@ public class OrderByPriorityTest {
             this.accountUuid = accountUuid;
         }
 
-        public int compareTo(DebtAccount o) {
-            return Double.compare(balance, o.balance);
-        }
+//        @Override
+//        public int compareTo(DebtAccount debitAccount) {
+//            return Double.compare(balance, debitAccount.balance);
+//        }
 
         @Override
-        public int compareTo(Object o) {
-            DebtAccount account = (DebtAccount) o;
-            return Double.compare(account.getBalance(), balance);
+        public int compareTo(DebtAccount account) {
+            if(account.getBalance() - balance > 0) {
+                return 1;
+            }
+            if(account.getBalance() - balance < 0) {
+                return -1;
+            }
+            return 0;
         }
     }
     public DebtAccount getGreatestNegativeBalance (List<DebtAccount> debtAccountList) {
@@ -47,7 +51,7 @@ public class OrderByPriorityTest {
     }
 
     public static void main(String[] args) {
-        OrderByPriorityTest test = new OrderByPriorityTest();
+        ComparableObjectsPriorityQueueTest test = new ComparableObjectsPriorityQueueTest();
         List<DebtAccount> debtList = new ArrayList<>();
         int i = 0;
         while(i < 10) {
@@ -55,14 +59,14 @@ public class OrderByPriorityTest {
             double bal = 10000 * random.nextDouble();
             System.out.println(bal);
             String uuid = UUID.randomUUID().toString();
-            OrderByPriorityTest.DebtAccount account = test.new DebtAccount();
+            ComparableObjectsPriorityQueueTest.DebtAccount account = test.new DebtAccount();
             account.setAccountUuid(uuid);
             account.setBalance(bal);
             debtList.add(account);
             i++;
         }
-        OrderByPriorityTest.DebtAccount result = test.getGreatestNegativeBalance(debtList);
-        System.out.println(result.getBalance());
+        ComparableObjectsPriorityQueueTest.DebtAccount result = test.getGreatestNegativeBalance(debtList);
+        System.out.println("Account with Max debt: " + result.getBalance());
 
     }
 
