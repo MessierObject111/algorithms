@@ -72,20 +72,69 @@ public class MeetingRoomsII {
         for (int i = 1; i < intervals.length; i++) {
 
             // If the room due to free up the earliest is free, assign that room to this meeting.
+            /* Comment: Here the code doesn't always update the content in allocator to the size
+             of ongoing meetings only. It will always keep its size at the previous max number of
+             rooms needed, and when new meetings from intervals kicks in, it will kick out one
+             expired meeting in it at most, meanwhile keeping other expired (if any) meetings in
+             queue without kicking them out. This doesn't affect the result and is more efficient.
+             2021-02-16
+            */
             if (intervals[i][0] >= allocator.peek()) {
-                int end = allocator.poll();
-                System.out.println("Polled: " + end);
+                allocator.poll();
             }
 
             // If a new room is to be assigned, then also we add to the heap,
             // If an old room is allocated, then also we have to add to the heap with updated end time.
             allocator.add(intervals[i][1]);
-            System.out.println("New interval: ["+ intervals[i][0] + ", " + intervals[i][1] + "]");
-            System.out.println("Rooms needed: "+ allocator.size());
+
         }
 
         // The size of the heap tells us the minimum rooms required for all the meetings.
         return allocator.size();
+    }
+
+    public int myMinMeetingRooms (int[][] intervals) {
+        if (intervals.length == 0) {
+            return 0;
+        }
+        int MAX = 1; // Base case for later line: ongoingMeetings.offer(intervals[0][1]);
+        Arrays.sort(intervals, new Comparator<int[]> (){
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];// Ascending order by first element in array
+            }
+        });
+
+        PriorityQueue<Integer> ongoingMeetings = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;// Ascending order
+            }
+        });
+        ongoingMeetings.offer(intervals[0][1]);
+        for(int i = 1; i < intervals.length; i++) {
+            // If incoming meeting begin before the earliest ending time of any ongoing meetings...
+            if(intervals[i][0] >= ongoingMeetings.peek()) {
+                int earliestEndingTime = ongoingMeetings.peek();
+                while (earliestEndingTime <= intervals[i][0] && !ongoingMeetings.isEmpty()) {
+                    ongoingMeetings.poll();
+                    if(ongoingMeetings.isEmpty()) break;
+                    earliestEndingTime = ongoingMeetings.peek();
+//                    System.out.println("New interval: ["+ intervals[i][0] + ", " + intervals[i][1] + "]");
+//                    ongoingMeetings.stream().forEach(e -> {
+//                        System.out.print(" ["+e+"] ");
+//                    });
+//                    System.out.println();
+//                    System.out.println("Rooms needed: "+ ongoingMeetings.size());
+                }
+
+            }
+            ongoingMeetings.offer(intervals[i][1]);
+            int currentNumberOfMeetings = ongoingMeetings.size();
+            MAX = Math.max(MAX, currentNumberOfMeetings);
+        }
+
+        return MAX;
     }
 
     public static void main(String[] args) {
@@ -117,11 +166,11 @@ public class MeetingRoomsII {
                 {82996,521419},{492091,699531},{87732,986277},{89747,721583},{90224,915337},{634391,941405},{428041,460798}};
         MeetingRoomsII solution = new MeetingRoomsII();
         long start = System.currentTimeMillis();
-        System.out.println(solution.minMeetingRoomsBrute(intervals_2));
+        System.out.println(solution.myMinMeetingRooms(intervals_2));
         long end = System.currentTimeMillis();
         System.out.println("Time elapsed: " + (end - start));
         start = System.currentTimeMillis();
-        System.out.println(solution.minMeetingRooms(intervals));
+        System.out.println(solution.minMeetingRooms(intervals_2));
         end = System.currentTimeMillis();
         System.out.println("Time elapsed: " + (end - start));
     }
