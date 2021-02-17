@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 
 public class ComparatorWithPriorityQueue {
     public static void main(String[] args) {
-        int[] array = {3, 5, 9, 2, 1, 7, 8, 2, 4, 6};
+        int[] array = {3, 5, 9, 2, 1, 7, 8, 0, 4, 6};
         //initialCapacity, and Comparator
         PriorityQueue<Integer> minHeap = new PriorityQueue<>(array.length, new Comparator<Integer>() {
             @Override
@@ -17,11 +17,15 @@ public class ComparatorWithPriorityQueue {
         for(int i = 0; i < array.length; i++) {
             minHeap.add(array[i]);
         }
-        System.out.println(minHeap.size());
+        System.out.println("Peek:" + minHeap.peek() + " size:" + minHeap.size());
         minHeap.poll();
-        System.out.println(minHeap.size());
-        minHeap.poll();
-        System.out.println(minHeap.size());
+        System.out.println("Peek:" + minHeap.peek() + " size:" + minHeap.size());
+        minHeap.remove();
+        System.out.println("Peek:" + minHeap.peek() + " size:" + minHeap.size());
+        minHeap.offer(2);
+        System.out.println("Peek:" + minHeap.peek() + " size:" + minHeap.size());
+        minHeap.add(1);
+        System.out.println("Peek:" + minHeap.peek() + " size:" + minHeap.size());
     }
 
 }
