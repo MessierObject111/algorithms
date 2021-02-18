@@ -1,4 +1,4 @@
-package com.alg.dp;
+package com.alg.other;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;

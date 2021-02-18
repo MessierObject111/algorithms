@@ -1,7 +1,5 @@
 package com.alg.designs;
 
-import com.java.se.inheritancePolymorphism.question9.B;
-
 import java.util.Stack;
 /*
 It is easy to simply implement it with IDE and debug tools, but what is important here is, you need to
