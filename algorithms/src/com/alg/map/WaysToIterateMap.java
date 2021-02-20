@@ -1,9 +1,7 @@
 package com.alg.map;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class WaysToIterateMap {
     static Map map = new HashMap();
@@ -31,6 +29,11 @@ public class WaysToIterateMap {
         keySet.stream().forEach(k->{
             System.out.println(k + "-" + map.get(k));
         });
+        Collection valueSet = map.values();
+        int sum = valueSet.stream().flatMapToInt(e->{
+            return IntStream.of(Integer.valueOf((String) e) / 2);
+        }).sum();
+        System.out.println("Sum of values: "+ sum);
 
         //Iterating using iterators over Map.Entry<K, V>
         System.out.println("-------Print By EntrySet iterator--------");
