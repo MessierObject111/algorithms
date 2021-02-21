@@ -1,5 +1,6 @@
 package com.alg.generic;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,6 +78,26 @@ public class CombinationSum {
             combination.add(nums[i]);
             dfs(nums, i, combination, remainTarget - nums[i], results);
             combination.remove(combination.size() - 1);
+        }
+    }
+
+    public static void main(String[] args) {
+        CombinationSum ins = new CombinationSum();
+        int[] candidates = {1, 2, 3, 6, 7};
+        int target = 7;
+        List<List<Integer>> results = ins.combinationSum(candidates, target);
+        for(List<Integer> list : results) {
+            for(Integer number : list) {
+                System.out.print(number + ", ");
+            }
+            System.out.println();
+        }
+
+        Class myObjectClass = CombinationSum.class;
+
+        Method[] methods = myObjectClass.getMethods();
+        for(Method method : methods) {
+            System.out.println(method);
         }
     }
 }

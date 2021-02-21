@@ -59,5 +59,9 @@ public class RemoveDuplicateNumbersInArray {
         int[] nums = {1,3,1,4,4,2};
         int result = ins.deduplication(nums);
         System.out.println(result);
+        System.out.println("------");
+        for(int num: nums) {
+            System.out.println(num);
+        }
     }
 }

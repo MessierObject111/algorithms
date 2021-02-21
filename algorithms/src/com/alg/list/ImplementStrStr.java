@@ -1,5 +1,8 @@
 package com.alg.list;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * For a given source string and a target string, you should output the first index(from 0) of target string in source string.
  *
@@ -76,5 +79,8 @@ public class ImplementStrStr {
         } else {
             System.out.println("false");
         }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
+//        Date date = dateFormat.parse("2020-01-01");
     }
 }
