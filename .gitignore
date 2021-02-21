@@ -1,6 +1,8 @@
 /algorithms/.idea/
 /algorithms/backups/
+/.idea/
 
+*.iml
 # MacOS
 .DS_Store
 
