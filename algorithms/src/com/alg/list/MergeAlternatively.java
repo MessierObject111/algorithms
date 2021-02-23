@@ -9,4 +9,12 @@ public class MergeAlternatively {
         }
         return result.toString();
     }
+
+    public static void main(String[] args) {
+        MergeAlternatively s = new MergeAlternatively();
+        String word1 = "abcde";
+        String word2 = "12345678";
+        String result = s.mergeAlternately(word1, word2);
+        System.out.println(result);
+    }
 }
