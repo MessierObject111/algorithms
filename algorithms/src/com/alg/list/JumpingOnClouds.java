@@ -29,5 +29,10 @@ public class JumpingOnClouds {
         JumpingOnClouds s = new JumpingOnClouds();
         int num = s.jumpingOnClouds(clouds);
         System.out.println(num);
+        long size = 100l;
+        int length = 10;
+        if(length > size) {
+            long result = length + size;
+        }
     }
 }
