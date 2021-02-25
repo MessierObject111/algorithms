@@ -20,8 +20,8 @@ public class WordBreakII {
     private List<String> recurseBfs(String s, Set<String> dict) {
         if(s.length() == 0) return new ArrayList<>();
 
-        List<String> cached = dpCache.get(s.length());
-        if(cached != null) return cached;
+//        List<String> cached = dpCache.get(s.length());
+//        if(cached != null) return cached; 2021-2-25: This is duplicated with line 37
 
         List<String> possibleStarts = dict.stream().filter(str->{
             return s.startsWith(str);
@@ -30,12 +30,12 @@ public class WordBreakII {
         List<String> results = new ArrayList<>();
         for(int i = 0; i < possibleStarts.size(); i++) {
             String start = possibleStarts.get(i);
-            //If the start steps ro the end of given string
+            //If the start steps to the end of given string: start "xyz" == remaining string "xyz"
             if (start.equals(s)) {
                 results.add(start);
             } else { // If start step does not reach end of given string, check if DP cache has result
                 String remaining = s.substring(start.length());// I made a lucky mistake here. When only 1 param was provided, it will substring from param int to end.
-                List<String> cachedResults = dpCache.get(remaining.length());
+                List<String> cachedResults = dpCache.get(remaining.length());// 2021-2-25: This is duplicated with line 23
                 if(cachedResults == null) {
                     //If no prior result was found for given step at i (remaining.length() steps to the end)
                     List<String> recurseResults = recurseBfs(remaining, dict);

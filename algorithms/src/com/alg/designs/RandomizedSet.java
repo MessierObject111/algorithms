@@ -2,6 +2,9 @@ package com.alg.designs;
 
 import java.util.*;
 
+/**
+ * 380. Insert Delete GetRandom O(1)
+ */
 public class RandomizedSet {
     Map<Integer, Integer> dict;
     List<Integer> list;
