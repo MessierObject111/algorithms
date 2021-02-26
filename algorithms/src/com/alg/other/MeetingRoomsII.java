@@ -93,6 +93,28 @@ public class MeetingRoomsII {
         return allocator.size();
     }
 
+    public int minMeetingRoomsB(int[][] intervals) {
+        if (intervals.length == 0) return 0;
+        if (intervals.length == 1) return 1;
+
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        PriorityQueue<Integer> queue =  new PriorityQueue<>();
+        int res = 1;
+        queue.offer(intervals[0][1]);
+        for (int i = 1; i < intervals.length; i++) {
+            int[] interval = intervals[i];
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            if (queue.peek() <= start) { // If meeting from top is finished when this meeting starts
+                queue.poll();
+            } else {
+                res++;
+            }
+            queue.offer(end);
+        }
+        return res;
+    }
+
     public int myMinMeetingRooms (int[][] intervals) {
         if (intervals.length == 0) {
             return 0;
@@ -137,6 +159,79 @@ public class MeetingRoomsII {
         return MAX;
     }
 
+    /**
+     * Trying to write without IDE again on 2021-02-26. A few thoughts.
+     * Surprise! Even with prior experience of successfully implementing it myself a week ago after hint, and still
+     * having somewhat fresh memory of how the problem should be solved, I failed at the implementation disastrously.
+     *
+     * After lengthy debug sessions, I still cannot locate the root cause of the bug. I will leave it here as a tomb
+     * and warning sign that, being able to solve some problem that has somewhat implementation variations, does not
+     * guarantee you to be able to solve it next time, especially when you are using text editor and has time limit.
+     *
+     * TODO: Fix this in future. And be aware about the importance of implementation techniques.
+     * @param intervals
+     * @return
+     */
+    public int myMinMeetingRoomsB(int[][] intervals) {
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        // What's the time complexity of sorting in Java Arrays.sort? For int, quicksort. Nlog(N)
+        int n = 1;
+        int max = 0;
+        Queue<Integer> queue = new PriorityQueue<>();
+        queue.offer(intervals[0][1]);
+        for(int i = 1; i < intervals.length; i++) {
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            if(queue.peek() > start || queue.size() == 0) {// If meeting from top is still ongoing when this meeting starts
+                queue.offer(end);
+                n++;
+                max = Math.max(n, max);
+            } else {// If meeting from top is finished when this meeting starts, remove top meeting
+                while(start >= queue.peek() && queue.size() > 0) {
+                    System.out.println("start:"+ start+" curEnd:"+ queue.peek() + " n:"+ n);
+                    queue.poll();// remove start meeting
+                    n--;
+                }
+                queue.offer(end);
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 2021-02-26: My fourth attempt to write this in recent 10 days and I still made 3 minor mistakes.
+     * But the good news is I wrote it in notepad and finished in 7 mins, and corrected all bugs quickly.
+     * @param intervals
+     * @return
+     */
+    public int myMinMeetingRoomsC (int[][] intervals) {
+        if(intervals.length == 0) return 0;
+        if(intervals.length == 1) return 1;
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0])); // Sort by begin time
+        Queue<Integer> ongoingMeetings = new PriorityQueue<>();
+
+        int MAX = 0;
+        int count = 0;
+
+        // Removed BUG: I set MAX and count as 1 and hoped to add first item in queue, but didn't.
+        // Later I realized that I don't need to start from 1; the while loop below can handle start from 0 perfectly.
+        for(int i = 0; i < intervals.length; i++) {
+            // if new meeting start is after every existing ongoing meeting's end time
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            while(!ongoingMeetings.isEmpty() && ongoingMeetings.peek() <= start) { // BUG: I forgot to check queue empty
+                ongoingMeetings.poll();
+                count--;
+            }
+            //if there are ongoing meetings end time
+            ongoingMeetings.offer(end);
+            count++;
+            MAX = Math.max(MAX, count);// TYPO: wrote MAX as max inside ()
+        }
+        return MAX;
+    }
+
+
     public static void main(String[] args) {
         int[][] intervals = {{1,10},{2,7},{3,19},{8,12},{10,20},{11,30}, {14, 25}, {30, 35}};
         int[][] intervals_2 = {{55720,349290},{688809,868579},{405490,841727},{145683,162453},{161225,936277},
@@ -164,14 +259,28 @@ public class MeetingRoomsII {
                 {51116,314039},{509615,872446},{115887,510640},{256739,523185},{445024,672722},{274078,898657},
                 {591988,707638},{891114,908492},{493026,914060},{312207,475083},{556210,841875},{264146,622094},
                 {82996,521419},{492091,699531},{87732,986277},{89747,721583},{90224,915337},{634391,941405},{428041,460798}};
+
+        int[][] intervals_3 = {{55720,349290},{688809,868579},{405490,841727},{145683,162453},{161225,936277},
+                {319899,784036},{47904,139575},{58916,998828},{223305,745027},{353070,801099},{498237,899576},
+                {545153,689213},{580153,668329},{36374,364587},{73797,257807},{389937,930931},{238654,297234}};
+
         MeetingRoomsII solution = new MeetingRoomsII();
         long start = System.currentTimeMillis();
-        System.out.println(solution.myMinMeetingRooms(intervals_2));
+        System.out.println(solution.myMinMeetingRoomsC(intervals_2));
         long end = System.currentTimeMillis();
         System.out.println("Time elapsed: " + (end - start));
         start = System.currentTimeMillis();
-        System.out.println(solution.minMeetingRooms(intervals_2));
+        System.out.println(solution.minMeetingRoomsB(intervals_2));
         end = System.currentTimeMillis();
         System.out.println("Time elapsed: " + (end - start));
+
+
+//        Arrays.sort(intervals_3, Comparator.comparingInt(a -> a[0]));
+//        for(int i = 0; i < intervals_3.length; i++) {
+//            for(int j = 0; j < intervals_3[i].length; j++) {
+//                System.out.print(intervals_3[i][j] + ", ");
+//            }
+//            System.out.println();
+//        }
     }
 }
