@@ -231,6 +231,27 @@ public class MeetingRoomsII {
         return MAX;
     }
 
+    /**
+     * 2021-03-01: Attempts to write for the 4th time.
+     * @param schedules
+     * @return
+     */
+    public int myMinMeetingRoomsD(int[][] schedules) {
+        if(schedules == null) return 0;
+        if(schedules.length <= 1) return 1;
+        Arrays.sort(schedules, Comparator.comparingInt(a -> a[0]));
+        PriorityQueue<Integer> ongoingMeetings = new PriorityQueue<>();
+
+        for(int i = 0; i < schedules.length; i++) {
+            int[] schedule = schedules[i];
+            if(!ongoingMeetings.isEmpty() && ongoingMeetings.peek() <= schedule[0]) {//BUG: Forget null check
+                ongoingMeetings.poll(); //Typo: pop() should be poll()
+            }
+            ongoingMeetings.offer(schedule[1]);
+        }
+        return ongoingMeetings.size();//Typo: ongoingMeetinga
+    }
+
 
     public static void main(String[] args) {
         int[][] intervals = {{1,10},{2,7},{3,19},{8,12},{10,20},{11,30}, {14, 25}, {30, 35}};
@@ -266,7 +287,7 @@ public class MeetingRoomsII {
 
         MeetingRoomsII solution = new MeetingRoomsII();
         long start = System.currentTimeMillis();
-        System.out.println(solution.myMinMeetingRoomsC(intervals_2));
+        System.out.println(solution.myMinMeetingRoomsD(intervals_2));
         long end = System.currentTimeMillis();
         System.out.println("Time elapsed: " + (end - start));
         start = System.currentTimeMillis();
