@@ -2,14 +2,25 @@ package com.alg.list;
 
 import com.sun.tools.javac.util.ArrayUtils;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClosestDessertCost {
     public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
         int n = baseCosts.length;
-        Arrays.sort(toppingCosts);
-        reverse(toppingCosts);
+        List<Integer> TCList = new ArrayList<>();
+        for(int i = 0; i < toppingCosts.length; i++) {
+            TCList.add(toppingCosts[i]);
+            TCList.add(toppingCosts[i]);
+        }
+
+        TCList = TCList.stream().sorted(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        }).collect(Collectors.toList());
+
         int closestCost = 0;
         for(int i = 0; i < n; i++) {
             int base = baseCosts[i];
@@ -31,19 +42,12 @@ public class ClosestDessertCost {
         return base;
     }
 
-    public void reverse(int[] array) {
-        if (array == null) {
-            return;
-        }
-        int i = 0;
-        int j = array.length - 1;
-        int tmp;
-        while (j > i) {
-            tmp = array[j];
-            array[j] = array[i];
-            array[i] = tmp;
-            j--;
-            i++;
-        }
+    public static void main(String[] args) {
+        ClosestDessertCost sol = new ClosestDessertCost();
+        int[] baseCosts_1 = {1,7};
+        int[] toppingCosts_1 = {3,4};
+        int target_1 = 10;
+        int res_1 = sol.closestCost(baseCosts_1, toppingCosts_1, target_1);
+        System.out.println(res_1);
     }
 }
