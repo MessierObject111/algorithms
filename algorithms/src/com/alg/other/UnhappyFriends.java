@@ -86,83 +86,47 @@ public class UnhappyFriends {
     private Set<Integer> unhappySet = new HashSet<>();
 
     public int unhappyFriends(int n, int[][] preferences, int[][] pairs) {
-        int numOfPairs = pairs.length;
-        for(int i = 0; i < numOfPairs; i++) {
+        // Priority Matrix ranking[][] stores the ranking information for easier lookup.
+        // ranking[x][y] will return the pref ranking of y of x.
+        int[][] ranking = new int[n][n];
+        boolean[] unhappyList = new boolean[n];
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n - 1; j++) {
+                ranking[i][preferences[i][j]] = j;
+            }
+        }
+
+        for(int i = 0; i < n/2; i++){
             int x = pairs[i][0];
             int y = pairs[i][1];
-            int[] prefList_x = preferences[x];
-            int[] prefList_y = preferences[y];
-            int xRankY = getIndexByValue(prefList_x, y);
-            int yRankX = getIndexByValue(prefList_y, x);
 
-            for(int j = 0; j < xRankY; j++) {
-                int friend = prefList_x[j];
-                int pair = findPair(friend, pairs);
-                int[] friendPref = preferences[friend];
-                boolean isUnhappy = checkUnhappy(x, friend, pair, friendPref);
-                if(isUnhappy) {
-                    unhappySet.add(x);
-                    unhappySet.add(friend);
+            for(int j = 0; j < n/2; j++) {
+                int u = pairs[j][0];
+                int v = pairs[j][1];
+                if(i == j) continue;
+                if(ranking[x][u] < ranking[x][y] && ranking[u][x] < ranking[u][v]) {
+                    unhappyList[x] = true;
+                    // unhappyList[u] = true;
                 }
-            }
-
-            for(int j = 0; j < yRankX; j++) {
-                int friend = prefList_y[j];
-                int pair = findPair(friend, pairs);
-                int[] friendPref = preferences[friend];
-                boolean isUnhappy = checkUnhappy(y, friend, pair, friendPref);
-                if(isUnhappy) {
-                    unhappySet.add(x);
-                    unhappySet.add(friend);
+                if(ranking[y][u] < ranking[y][x] && ranking[u][y] < ranking[u][v]) {
+                    unhappyList[y] = true;
+                    // unhappyList[u] = true;
+                }
+                if(ranking[x][v] < ranking[x][y] && ranking[v][x] < ranking[v][u]) {
+                    unhappyList[x] = true;
+                    // unhappyList[v] = true;
+                }
+                if(ranking[y][v] < ranking[y][x] && ranking[v][y] < ranking[v][u]) {
+                    unhappyList[y] = true;
+                    // unhappyList[v] = true;
                 }
             }
         }
-        return unhappySet.size();
-    }
-
-//    private void check (int rank, ) {
-//        for(int j = 0; j < xRankY; j++) {
-//            int friend = prefList_x[j];
-//            int pair = findPair(friend, pairs);
-//            int[] friendPref = preferences[friend];
-//            boolean isUnhappy = checkUnhappy(x, friend, pair, friendPref);
-//            if(isUnhappy) {
-//                unhappySet.add(x);
-//                unhappySet.add(friend);
-//            }
-//        }
-//    }
-
-    private int getIndexByValue(int[] prefList, int personIndex) {
-        int index = 0;
-        while(prefList[index] != personIndex) index++;
-        return index;
-    }
-
-    private int findPair(int index, int[][] pairs) {
-        int size = pairs.length;
-        int result = 0;
-        for(int i = 0; i< size; i++) {
-            int[] pair = pairs[i];
-            if(pair[0] == index) {
-                result = pair[1];
-                break;
-            }
-            if(pair[1] == index) {
-                result = pair[0];
-                break;
-            }
+        int unhappyCount = 0;
+        for(int i = 0; i < unhappyList.length; i++) {
+            if(unhappyList[i]) unhappyCount++;
         }
-        return result;
-    }
-
-    private boolean checkUnhappy(int x, int friend, int pair, int[] friendPref) {
-        int friendRankOfX = getIndexByValue(friendPref, x);
-        int friendRankOfPair = getIndexByValue(friendPref, pair);
-        if (friendRankOfX < friendRankOfPair) {
-            return true; // If x has higher preference, then x and friend are not happy
-        }
-        return false;//Else, they are 'happy' so far
+        return unhappyCount;
     }
 
     public static void main(String[] args) {
