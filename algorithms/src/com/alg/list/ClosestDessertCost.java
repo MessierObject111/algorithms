@@ -1,6 +1,5 @@
 package com.alg.list;
 
-import com.sun.tools.javac.util.ArrayUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
