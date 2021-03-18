@@ -54,18 +54,18 @@ public class CoinChange {
         long start = System.currentTimeMillis();
 
         CoinChange s = new CoinChange();
-        int[] changes = {2};
+        int[] changes = {2,5};
 
 //        System.out.println("Num of Coin changes for 1: " + s.coinChange(changes, 1));
 //        System.out.println("Num of Coin changes for 2: " + s.coinChange(changes, 2));
-        System.out.println("Num of Coin changes for 3: " + s.coinChange(changes, 3));
+//        System.out.println("Num of Coin changes for 3: " + s.coinChange(changes, 3));
 //        System.out.println("Num of Coin changes for 4: " + s.coinChange(changes, 4));
 //        System.out.println("Num of Coin changes for 5: " + s.coinChange(changes, 5));
 //        System.out.println("Num of Coin changes for 6: " + s.coinChange(changes, 6));
 //        System.out.println("Num of Coin changes for 7: " + s.coinChange(changes, 7));
 //        System.out.println("Num of Coin changes for 8: " + s.coinChange(changes, 8));
 //        System.out.println("Num of Coin changes for 9: " + s.coinChange(changes, 9));
-//        System.out.println("Num of Coin changes for 27: " + s.coinChange(changes, 27));//5+5+5+5+7
+        System.out.println("Num of Coin changes for 27: " + s.coinChange(changes, 27));//5+5+5+5+7
 //        System.out.println("Num of Coin changes: " + s.coinChange(changes, 100));
 
         long end = System.currentTimeMillis();
