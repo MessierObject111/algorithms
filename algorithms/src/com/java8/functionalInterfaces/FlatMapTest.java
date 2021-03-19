@@ -21,9 +21,11 @@ public class FlatMapTest {
         ).collect(Collectors.toList());
         System.out.println(flattenedList);
 
-        flattenedAndAddList = listOfLists.stream().flatMap(n -> {
+//        flattenedAndAddList =
+                listOfLists.stream().flatMap(n -> {
             return n.stream().map(m->m+1);
-        }).collect(Collectors.toList());
-        System.out.println(flattenedAndAddList);
+        }).forEach(System.out::println);
+//                .collect(Collectors.toList());
+//        System.out.println(flattenedAndAddList);
     }
 }

@@ -1,6 +1,6 @@
 package com.alg.leetcode;
 
-public class CommonPrefix {
+public class LongestCommonPrefixB {
     /**
      * For fuck's sake, I wrote this problem on Mar 4th 2021, merely 2.5 weeks ago, and I totally fucking forgot how did
      * I implement it in detail. I don't remember a thing about did I used a 'first' string as start.
@@ -29,7 +29,7 @@ public class CommonPrefix {
     }
 
     public static void main(String[] args) {
-        CommonPrefix sol = new CommonPrefix();
+        LongestCommonPrefixB sol = new LongestCommonPrefixB();
         String[][] input = {{""}, {"abc", "abd"}, {"abc", "def"}, {"abcd", "abc"}};
         for(int i = 0; i<input.length; i++){
             String result = sol.commonPrefix(input[i]);
