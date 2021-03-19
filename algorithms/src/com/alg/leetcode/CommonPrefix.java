@@ -14,7 +14,7 @@ public class CommonPrefix {
         for(int i = 0; i < first.length();i++) {
             char c = first.charAt(i);
             for(int j = 0; j < strs.length; j++) {
-                if(strs[j].length() >= i) {
+                if(i < strs[j].length()) {
                     if(strs[j].charAt(i) != c) {
                         return commonPrefix.toString();
                     }
@@ -30,7 +30,11 @@ public class CommonPrefix {
 
     public static void main(String[] args) {
         CommonPrefix sol = new CommonPrefix();
-        String result = sol.commonPrefix(new String[]{"abc", "abd"});
-        System.out.println(result);
+        String[][] input = {{""}, {"abc", "abd"}, {"abc", "def"}, {"abcd", "abc"}};
+        for(int i = 0; i<input.length; i++){
+            String result = sol.commonPrefix(input[i]);
+            System.out.println(result);
+        }
+
     }
 }
