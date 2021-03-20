@@ -50,6 +50,8 @@ public class FindCenterOfStarGraph {
     // This is the solution that accepted by leetcode without reporting StackOverflow/Out of memory space.
     // The solution above using Set<Integer> somehow negatively impacted the performance in bottom level java
     //implementation nature when integers were used as key in hashmap.
+    // UPDATE: It has nothing to do with using Integers. It was my code mistakenly called new HashSet<>(center) that
+    // caused the initial capacity of HashSet to be accidentally related with center value. We can use Integer.
     public int findCenterByStr(int[][] edges) {
         Map<String, Set<String>> existing = new HashMap<>();// key is node index; value is the set of connected nodes
         long start = System.currentTimeMillis();
@@ -123,7 +125,7 @@ public class FindCenterOfStarGraph {
 //        System.out.println(s.findCenterStrInput(stringEdges));
     }
 
-    // It seems that performance is fine when I used String as HashMap key, but not integer in certain circumstances
+
     public int findCenterStrInput(String[][] edges) {
         Map<String, Set<String>> existing = new HashMap<>();// key is node index; value is the set of connected nodes
         long start = System.currentTimeMillis();
