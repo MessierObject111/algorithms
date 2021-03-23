@@ -14,33 +14,41 @@ public class LongestCommonSubsequence {
      * @param text2
      * @return
      */
-    public int longestCommonSubsequence_Failed(String text1, String text2) {
-        if(text1.length() == 0 || text2.length() == 0) return 0;
-        int maxLength = 0;
-        for(int k = 0 ; k < text1.length(); k++) {
-            int start = 0;
-            StringBuilder commonSubSeq = new StringBuilder();
+//    public int longestCommonSubsequence_Failed(String text1, String text2) {
+//        if(text1.length() == 0 || text2.length() == 0) return 0;
+//        int maxLength = 0;
+//        for(int k = 0 ; k < text1.length(); k++) {
+//            int start = 0;
+//            StringBuilder commonSubSeq = new StringBuilder();
+//
+//            for(int i = k; i < text1.length(); i++) {
+//                char c = text1.charAt(i);
+//
+//                for(int j = start; j < text2.length(); j++) {
+//                    if(c == text2.charAt(j)) {
+//                        start = j + 1;
+//                        commonSubSeq.append(c);
+//                        break;
+//                    }
+//                }
+//            }
+//            int length = commonSubSeq.length();
+//            maxLength = length > maxLength ? length : maxLength;
+//            System.out.println(commonSubSeq);
+//        }
+//
+//        return maxLength;
+//    }
 
-            for(int i = k; i < text1.length(); i++) {
-                char c = text1.charAt(i);
 
-                for(int j = start; j < text2.length(); j++) {
-                    if(c == text2.charAt(j)) {
-                        start = j + 1;
-                        commonSubSeq.append(c);
-                        break;
-                    }
-                }
-            }
-            int length = commonSubSeq.length();
-            maxLength = length > maxLength ? length : maxLength;
-            System.out.println(commonSubSeq);
-        }
-
-        return maxLength;
-    }
-
-
+    /**
+     * 2021-03-21: After reading failed test cases and solutions, I realized previous mistake on approach. This problem
+     * can only be solved by DP: adbcd - abcd, for example, by lopping & comparing, we can only get 'ad' as the longest
+     * common subsequence; but by tearing it down to smaller problems with DB, we can come up with a 2D array of t1 & t2
+     * @param text1
+     * @param text2
+     * @return
+     */
     public int longestCommonSubsequence(String text1, String text2) {
         int len1 = text1.length();
         int len2 = text2.length();
