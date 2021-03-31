@@ -54,7 +54,7 @@ public class CoinChange {
         long start = System.currentTimeMillis();
 
         CoinChange s = new CoinChange();
-        int[] changes = {2,5};
+        int[] changes = {2,5,7};
 
 //        System.out.println("Num of Coin changes for 1: " + s.coinChange(changes, 1));
 //        System.out.println("Num of Coin changes for 2: " + s.coinChange(changes, 2));
