@@ -33,9 +33,62 @@ public class RemoveAllDupsInAdjStringII {
         return sb.toString();
     }
 
+    // 2021-04-03 attempt:
+    /* You need to either make your inner class static, or refer to it through an instance of the outer class.
+    Most likely you just want to make your inner class static.
+
+    Non-static members of a class (variables, methods, inner classes) are per instance of the class. Therefore,
+    when accessing non-static members from a static context (such as a static method like testHashCodeOverride), you need
+     to specify an instance of the enclosing class.*/
+    static class AttemptII {
+        boolean isEligible;
+        public String removeDuplicates(String s, int k) {
+            isEligible = true;
+            StringBuilder sb = new StringBuilder(s);
+            while(isEligible) {
+                sb = removeDup(sb, k);
+            }
+            return sb.toString();
+        }
+
+        private StringBuilder removeDup(StringBuilder sb, int k) {
+            isEligible = false;
+            if(sb.length() < k) return sb;
+            int i = 1;
+            int count = 1;
+            while(i < sb.length()) {
+                if(sb.charAt(i - 1) == sb.charAt(i)) {
+                    count++;
+                    i++;
+                    continue;
+                } else {
+                    if(count >= k) {
+                        isEligible = true;
+                        return sb.delete(i - count, i );
+                    } else {
+                        count = 1;
+                    }
+                }
+                i++;
+            }
+            return sb;
+        }
+    }
+
+
     public static void main(String[] args) {
         String input_1 = "abcccbbbc";
+        String input_2 = "aazaabbbbbz";
+        String input_3 = "pbbcggttciiippooaais";//"ps" "is"
+
         RemoveAllDupsInAdjStringII solution = new RemoveAllDupsInAdjStringII();
         System.out.println(solution.removeDuplicates(input_1, 3));
+
+        RemoveAllDupsInAdjStringII.AttemptII sol2 = new AttemptII();
+        System.out.println(sol2.removeDuplicates(input_1, 3));
+
+        System.out.println(sol2.removeDuplicates(input_2, 3));
+        System.out.println(sol2.removeDuplicates(input_3, 2));
+        //My logic will result to "is" as 3rd example's result, but it tells me it should be "ps" and I don't understand why
     }
 }
