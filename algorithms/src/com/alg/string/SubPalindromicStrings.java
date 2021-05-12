@@ -30,8 +30,11 @@ public class SubPalindromicStrings {
 
     public static void main(String[] args) {
         String input_1 = "aaa";
+        String input_2 = "aba";
         SubPalindromicStrings sol = new SubPalindromicStrings();
         int count_1 = sol.countSubstrings(input_1);
+        int count_2 = sol.countSubstrings(input_2);
         System.out.println(count_1);
+        System.out.println(count_2);
     }
 }
