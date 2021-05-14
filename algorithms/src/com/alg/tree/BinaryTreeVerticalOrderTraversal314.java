@@ -127,6 +127,9 @@ public class BinaryTreeVerticalOrderTraversal314 {
 //        node_2.right = node_6;
 
         List<List<Integer>> result = s.verticalOrder(root);
+        result.forEach(nodeList -> {
+            nodeList.forEach(node -> System.out.println(node));
+        });
         System.out.println();
 
     }
