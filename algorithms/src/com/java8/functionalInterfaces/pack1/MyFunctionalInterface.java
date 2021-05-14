@@ -1,4 +1,4 @@
-package com.java8.functionalInterfaces.defaultMethod;
+package com.java8.functionalInterfaces.pack1;
 
 import java.io.IOException;
 import java.io.PrintWriter;
