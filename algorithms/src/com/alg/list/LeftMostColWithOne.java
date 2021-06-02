@@ -1,5 +1,7 @@
 package com.alg.list;
 
+import com.java.se.inheritancePolymorphism.question9.B;
+
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -27,52 +29,89 @@ import java.util.List;
 
  What is current value 1 or 0?
  if 1
-    Are we in leftmost col?
-    if Yes: return col
-    if No: Compare & Update left value, then go left & down (step)
+    Are we in leftmost col & down most row?
+    if Yes, return col;
+    if No, do below logic
+        Are we in leftmost col?
+        if Yes: return col
+        if No: Compare & Update left value, then go left & down (step)
 
-    Are we in down most row?
-    if Yes: Compare & Update left value, then go left
-    if No: Compare & Update left value, then go down
+        Are we in down most row?
+        if Yes: Compare & Update left value, then go left
+        if No: Compare & Update left value, then go down
  if 0
-    go left & down (step)
- Are we
+     Are we in leftmost col & down most row?
+     if Yes, return result;
+     if No, do below logic
+         Are we in leftmost col?
+         if Yes: go down (step)
+         if No: go left & down (step)
+
+         Are we in down most row?
+         if Yes: go left
+         if No: go left & down (step)
+
  **/
 public class LeftMostColWithOne {
+    private int result = 0;
+    private int rowSize;
+    private int colSize;
+
+    private void step(BinaryMatrix binaryMatrix, int row, int col, int result) {
+        int currentVal = binaryMatrix.get(row, col);
+        if(currentVal == 1) {
+            if(col == 0 && row == rowSize - 1) {
+                this.result = col;
+                return;
+            }
+            if(col == 0) {
+                this.result = col;
+                return;
+            }
+            if(row == rowSize - 1) {
+                this.result = col;
+                //Step left
+                step(binaryMatrix, row, col - 1, this.result);
+            }
+            else{
+                this.result = col;
+                //Step down
+                step(binaryMatrix, row + 1, col, this.result);
+            }
+
+        }
+        if(currentVal == 0) {
+            if(col == 0 && row == rowSize - 1) {
+                return;
+            }
+            if(col == 0) {
+                //Step down
+                step(binaryMatrix, row + 1, col, this.result);
+            }
+            if(row == rowSize - 1) {
+                //Step left
+                step(binaryMatrix, row, col - 1, this.result);
+            }
+            else{
+                //Step down
+                step(binaryMatrix, row + 1, col, this.result);
+            }
+        }
+    }
+
     public int leftMostColumnWithOne(BinaryMatrix binaryMatrix) {
         List<Integer> dimensions = binaryMatrix.dimensions();
-        int rowSize = dimensions.get(0);
-        int colSize = dimensions.get(1);
+        this.rowSize = dimensions.get(0);
+        this.colSize = dimensions.get(1);
         int row = 0;
         int col = colSize - 1;
         int result = -1;
+        step(binaryMatrix, row, col, this.result);
 
-        while(row <= rowSize-1) {
-            int current = binaryMatrix.get(row, col);
-            if(current == 0) {
-                if(row < rowSize) {
-                    row++;
-                }
-                if(row == rowSize - 1) {
-
-                }
-
-            } else if(current == 1) {
-
-                if(col > 0) {
-                    result = col;
-                    col--;
-                }
-                if(col == 0) {
-                    return 0;
-                }
-
-            }
-        }
         return result;
     }
 
-    private class BinaryMatrix {
+    class BinaryMatrix {
         private final int[][] matrix;
 
         public BinaryMatrix(int[][] matrix) {
@@ -81,12 +120,21 @@ public class LeftMostColWithOne {
 
         public List<Integer> dimensions() {
             List<Integer> dimen = new ArrayList<>();
-            dimen.add(matrix.length, matrix[0].length);
+            dimen.add(matrix.length);
+            dimen.add(matrix[0].length);
             return dimen;
         }
 
         public int get(int row, int col) {
             return matrix[row][col];
         }
+    }
+
+    public static void main(String[] args) {
+        int[][] matrix = {{0, 0}, {1, 1}};
+        LeftMostColWithOne sol = new LeftMostColWithOne();
+        BinaryMatrix binaryMatrix = sol.new BinaryMatrix(matrix);
+        int result = sol.leftMostColumnWithOne(binaryMatrix);
+        System.out.println(result);
     }
 }
