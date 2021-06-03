@@ -53,32 +53,34 @@ import java.util.List;
 
  **/
 public class LeftMostColWithOne {
-    private int result = 0;
+    private int result = Integer.MAX_VALUE;
     private int rowSize;
     private int colSize;
+    private boolean existAtLeastOne = false;
 
     private void step(BinaryMatrix binaryMatrix, int row, int col, int result) {
         int currentVal = binaryMatrix.get(row, col);
+        System.out.println("col:" + col + " row:" + row + " val:" + currentVal);
         if(currentVal == 1) {
             if(col == 0 && row == rowSize - 1) {
-                this.result = col;
+                this.result = col < this.result ? col : this.result;
                 return;
             }
             if(col == 0) {
-                this.result = col;
+                this.result = col < this.result ? col : this.result;
                 return;
             }
             if(row == rowSize - 1) {
-                this.result = col;
+                this.result = col < this.result ? col : this.result;
                 //Step left
                 step(binaryMatrix, row, col - 1, this.result);
             }
             else{
-                this.result = col;
-                //Step down
-                step(binaryMatrix, row + 1, col, this.result);
+                this.result = col < this.result ? col : this.result;
+                //Step left
+                step(binaryMatrix, row, col - 1, this.result);
             }
-
+            existAtLeastOne = true;
         }
         if(currentVal == 0) {
             if(col == 0 && row == rowSize - 1) {
@@ -105,10 +107,10 @@ public class LeftMostColWithOne {
         this.colSize = dimensions.get(1);
         int row = 0;
         int col = colSize - 1;
-        int result = -1;
         step(binaryMatrix, row, col, this.result);
 
-        return result;
+        if(existAtLeastOne) return this.result;
+        return -1;
     }
 
     class BinaryMatrix {
@@ -131,7 +133,8 @@ public class LeftMostColWithOne {
     }
 
     public static void main(String[] args) {
-        int[][] matrix = {{0, 0}, {1, 1}};
+//        int[][] matrix = {{0, 0}, {0, 1}};
+        int[][] matrix = {{1,1,1,1,1},{0,0,0,1,1},{0,0,1,1,1},{0,0,0,0,1},{0,0,0,0,0}};
         LeftMostColWithOne sol = new LeftMostColWithOne();
         BinaryMatrix binaryMatrix = sol.new BinaryMatrix(matrix);
         int result = sol.leftMostColumnWithOne(binaryMatrix);
