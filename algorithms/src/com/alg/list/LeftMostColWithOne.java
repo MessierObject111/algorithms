@@ -113,6 +113,23 @@ public class LeftMostColWithOne {
         return -1;
     }
 
+    public int leftMostColumnWithOneII(BinaryMatrix binaryMatrix) {
+        List<Integer> dimensions = binaryMatrix.dimensions();
+        this.rowSize = dimensions.get(0);
+        this.colSize = dimensions.get(1);
+        int row = 0;
+        int col = this.colSize - 1;
+
+        while(row < this.rowSize && col >= 0) {
+            if(binaryMatrix.get(row, col) == 0) {
+                row++;
+            } else {
+                col--;
+            }
+        }
+        return (col == this.colSize - 1) ? -1 : col + 1;
+    }
+
     class BinaryMatrix {
         private final int[][] matrix;
 
@@ -137,7 +154,7 @@ public class LeftMostColWithOne {
         int[][] matrix = {{1,1,1,1,1},{0,0,0,1,1},{0,0,1,1,1},{0,0,0,0,1},{0,0,0,0,0}};
         LeftMostColWithOne sol = new LeftMostColWithOne();
         BinaryMatrix binaryMatrix = sol.new BinaryMatrix(matrix);
-        int result = sol.leftMostColumnWithOne(binaryMatrix);
+        int result = sol.leftMostColumnWithOneII(binaryMatrix);
         System.out.println(result);
     }
 }
