@@ -83,12 +83,28 @@ public class RestoreIPAddresses {
 
     public static void main(String[] args) {
         RestoreIPAddresses sol = new RestoreIPAddresses();
-//        String s = "25525511135";
-//        String s = "010010";
-        String s = "0279245587303";
-        List<String> resultsList = sol.restoreIpAddresses(s);
-        for(int i = 0; i < resultsList.size(); i++) {
-            System.out.println(resultsList.get(i));
+
+        //Expects 255.255.11.135
+        //255.255.111.35
+        String s1 = "25525511135"; //Base case; check 255
+        List<String> resultsList1 = sol.restoreIpAddresses(s1);
+        for(int i = 0; i < resultsList1.size(); i++) {
+            System.out.println(resultsList1.get(i));
+        }
+
+        //Expects 0.10.0.10
+        //0.100.1.0
+        String s2 = "010010"; // Check for leading zeros;
+        List<String> resultsList2 = sol.restoreIpAddresses(s2);
+        for(int i = 0; i < resultsList2.size(); i++) {
+            System.out.println(resultsList2.get(i));
+        }
+
+        //Expects nothing; []
+        String s3 = "0279245587303"; // Check for corner cases that is larger than max allowed integers
+        List<String> resultsList3 = sol.restoreIpAddresses(s3);
+        for(int i = 0; i < resultsList3.size(); i++) {
+            System.out.println(resultsList3.get(i));
         }
     }
 }
