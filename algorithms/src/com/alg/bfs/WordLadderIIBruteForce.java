@@ -49,6 +49,7 @@ public class WordLadderIIBruteForce {
         Set<String> dict = new HashSet<>(wordList);
         if(!dict.contains(endWord)) return new ArrayList<>();
         findNextSteps(beginWord, endWord, wordList, visited, allPaths);
+        if(allPaths.isEmpty()) return new ArrayList<>();
         int minLength = allPaths.stream()
                 .mapToInt(e -> e.size()).min().orElseThrow(NoSuchElementException::new);
         List<List<String>> pathsWithMinLength = allPaths.stream().filter(e -> e.size() == minLength)
