@@ -36,6 +36,44 @@ public class PrintTwoArrayByTurns {
 
         t1.start();
         t2.start();
+
+        //Below is a traditional way to solve this problem without using LockSupport:
+        //The lock object:
+        Object o = new Object();
+
+        Thread r1 = new Thread (()->{
+            synchronized (o) {
+                for(char c: arr1) {
+                    System.out.println(c);
+                    try {
+                        o.notify();
+                        o.wait();
+                    } catch (InterruptedException e) {
+                        System.out.println(e);
+                    }
+                }
+            }
+        });
+
+
+        Thread r2 = new Thread(()->{
+            synchronized (o) {
+                for(char c: arr2) {
+                    System.out.println(c);
+                    try {
+                        o.notify();
+                        o.wait();
+                    } catch (InterruptedException e) {
+                        System.out.println(e);
+                    }
+                }
+            }
+        });
+
+        r1.start();
+        r2.start();
+
+        System.exit(0);
     }
 
 }
