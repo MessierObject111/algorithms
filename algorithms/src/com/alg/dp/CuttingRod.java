@@ -14,6 +14,7 @@ import java.util.HashMap;
  * 1: (1) = $2
  * 2: (1 + 1) $2 + $2 = $4; (2) = $3;
  * 3: (1 + 1 + 1) = $6; (1 + 2) = $5; (3) = $5
+ * 4: (1 + 1 + 1 + 1) = $8; (1 + 2 + 1) = $7; (2 + 2) = $6; (4) = $6
  *
  * To calculate the max profit for 4, or n, we first need to calculate
  * from length 1 : what is the max profit we can make for rod with
