@@ -95,9 +95,24 @@ public class CuttingRod {
         return dpCacheMap.get(length);
     }
 
+    private int calculateMax(int[] priceArray) {
+        int length = priceArray.length;
+        int[] dpCache = new int[length + 1];
+        dpCache[0] = 0;
+        for(int i = 1; i < length; i++) {
+            int max = 0;
+            for(int j = 0; j < i; j++) {
+                max = Math.max(dpCache[j], priceArray[i - j - 1]);
+                dpCache[i] = max;
+            }
+        }
+        return dpCache[length - 1];
+    }
+
     public static void main(String[] args) {
         int[] prices = {2, 3, 5, 6};
         CuttingRod sol = new CuttingRod();
         System.out.println(sol.cutRod(prices, prices.length));
+        System.out.println(sol.calculateMax(prices));
     }
 }
