@@ -1,4 +1,4 @@
-package com.alg.twoPointers;
+package com.alg.pointers;
 
 public class SquaresOfSortedArray {
     /**
