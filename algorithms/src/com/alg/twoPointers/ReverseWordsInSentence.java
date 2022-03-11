@@ -1,4 +1,4 @@
-package com.alg.pointers;
+package com.alg.twoPointers;
 
 public class ReverseWordsInSentence {
     public String reverseWords(String s) {

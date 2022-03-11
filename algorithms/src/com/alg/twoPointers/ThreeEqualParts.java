@@ -1,4 +1,4 @@
-package com.alg.pointers;
+package com.alg.twoPointers;
 
 /**
  * You are given an array arr which consists of only zeros and ones, divide the array into three non-empty parts such

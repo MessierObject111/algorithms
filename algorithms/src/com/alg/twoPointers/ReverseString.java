@@ -1,4 +1,4 @@
-package com.alg.pointers;
+package com.alg.twoPointers;
 
 /**
  * 344. Reverse String

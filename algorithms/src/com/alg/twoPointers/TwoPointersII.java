@@ -1,4 +1,4 @@
-package com.alg.pointers;
+package com.alg.twoPointers;
 
 /**
  * Now the input array is sorted, and you have to use O(N) time to finish.

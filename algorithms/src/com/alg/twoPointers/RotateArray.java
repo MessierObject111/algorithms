@@ -1,4 +1,4 @@
-package com.alg.pointers;
+package com.alg.twoPointers;
 
 public class RotateArray {
     public void rotate(int[] nums, int k) {
