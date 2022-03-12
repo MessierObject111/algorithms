@@ -35,6 +35,21 @@ public class MiddleOfLinkedList {
         return p1;
     }
 
+    /**
+     * Did it again at 2022-03-12
+     * @param head
+     * @return
+     */
+    public ListNode middleNode2(ListNode head) {
+        ListNode n1 = head;
+        ListNode n2 = head;
+        while(n2 != null && n2.next != null) {
+            n1=n1.next;
+            n2=n2.next.next;
+        }
+        return n1;
+    }
+
     public static void main(String[] args) {
         ListNode n1 = new ListNode(1);
         ListNode n2 = new ListNode(2);
