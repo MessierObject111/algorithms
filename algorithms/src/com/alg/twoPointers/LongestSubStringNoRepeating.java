@@ -4,6 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LongestSubStringNoRepeating {
+    /**
+     * Runtime: 12 ms, faster than 54.10% of Java online submissions for Longest Substring Without Repeating Characters.
+     * Memory Usage: 46.2 MB, less than 26.33% of Java online submissions for Longest Substring Without Repeating Characters.
+     * @param s
+     * @return
+     */
     public int lengthOfLongestSubstring(String s) {
         Set<Character> dictionarySet = new HashSet<>();
         int MAX = 0;
@@ -34,6 +40,30 @@ public class LongestSubStringNoRepeating {
         MAX = Math.max(size, MAX);
 
         return MAX;
+    }
+
+    /**
+     * Tried to write again in 2022-03-14
+     * Runtime: 13 ms, faster than 47.57% of Java online submissions for Longest Substring Without Repeating Characters.
+     * Memory Usage: 45.5 MB, less than 34.28% of Java online submissions for Longest Substring Without Repeating Characters.
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring2(String s) {
+        Set<Character> windowSet = new HashSet<>();
+        int l = 0;
+        int r = 0;
+        int max = 0;
+        while(l <= r && r < s.length()) {
+            while(r < s.length() && !windowSet.contains(s.charAt(r))) {
+                windowSet.add(s.charAt(r));
+                max = max < windowSet.size() ? windowSet.size() : max;
+                r++;
+            }
+            windowSet.remove(s.charAt(l));
+            l++;
+        }
+        return max;
     }
 
     public static void main(String[] args) {
