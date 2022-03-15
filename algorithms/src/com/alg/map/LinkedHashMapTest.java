@@ -1,6 +1,8 @@
 package com.alg.map;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class LinkedHashMapTest {
     public static void main(String[] args) {
@@ -12,5 +14,11 @@ public class LinkedHashMapTest {
         map.forEach((k, v) -> {
             System.out.println(k + ": " + v);
         });
+
+        Map<Character, Integer> map1 = new HashMap<>();
+        Map<Character, Integer> map2 = new HashMap<>();
+        map1.put('a', 1);
+        map2.put('a', 1);
+        System.out.println("map1 equals map2? "+ map1.equals(map2));//true
     }
 }
