@@ -58,5 +58,14 @@ public class MergeSortFilterListsTest {
         filteredList.forEach(sampleWorker -> {
             System.out.println(sampleWorker.getName());
         });
+
+        SampleWorker p8 = p1;
+        SampleWorker p9 = p8;
+        changeName(p1);
+        System.out.println(p9.getName());;
+    }
+
+    public static void changeName(SampleWorker worker) {
+        worker.setName("Set Name");
     }
 }
