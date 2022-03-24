@@ -1,9 +1,30 @@
 package com.alg.leetcode;
 
-import java.util.concurrent.atomic.AtomicInteger;
+////////////////////////////////////////////////////////////////////
+//                          _ooOoo_                               //
+//                         o8888888o                              //
+//                         88" . "88                              //
+//                         (| ^_^ |)                              //
+//                         O\  =  /O                              //
+//                      ____/`---'\____                           //
+//                    .'  \\|     |//  `.                         //
+//                   /  \\|||  :  |||//  \                        //
+//                  /  _||||| -:- |||||-  \                       //
+//                  |   | \\\  -  /// |   |                       //
+//                  | \_|  ''\---/''  |   |                       //
+//                  \  .-\__  `-`  ___/-. /                       //
+//                ___`. .'  /--.--\  `. . ___                     //
+//              ."" '<  `.___\_<|>_/___.'  >'"".                  //
+//            | | :  `- \`.;`\ _ /`;.`/ - ` : | |                 //
+//            \  \ `-.   \_ __\ /__ _/   .-` /  /                 //
+//      ========`-.____`-.___\_____/___.-`____.-'========         //
+//                           `=---='                              //
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
+//                  佛祖保佑       永不宕机     永无BUG              //
+////////////////////////////////////////////////////////////////////
 
 public class StringCompression {
-    char[] chars;
+
     public int compress(char[] chars) {
         StringBuilder sb = new StringBuilder();
         int count = 1;
@@ -36,6 +57,13 @@ public class StringCompression {
         return sb.length();
     }
 
+    /**
+     * When a sequence of same character ends, append based on rule. If more than 1, append char with number;
+     * else just the char itself.
+     * @param sb
+     * @param c
+     * @param count
+     */
     private void smartAppend (StringBuilder sb, char c, int count) {
         String s = String.valueOf(c);
         if (count <= 1) {
@@ -46,22 +74,53 @@ public class StringCompression {
         }
     }
 
-    public AtomicInteger add(AtomicInteger i) {
-        i.addAndGet(1);
-        return i;
+    /**
+     *
+     * @param chars
+     * @return
+     */
+    public int compress2nd(char[] chars) {
+        if(chars.length < 2) return chars.length;
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < chars.length - 1; i++) {
+            int count = 1;
+            sb.append(chars[i]);
+            while(i < chars.length - 1 && chars[i] == chars[i + 1]) {
+                System.out.println(i + " " + chars[i] + " count:" + count);
+                count++;
+                i++;
+            }
+            // Handling of last character
+            if(i == chars.length - 1) {
+                if(chars[i] != chars[i - 1]) {
+                    if(count > 1) {
+                        sb.append(count);
+                    } else {
+                        sb.append(chars[i]);
+                    }
+                }
+            }
+            if(count > 1) sb.append(count);
+        }
+        char[] altered = sb.toString().toCharArray();
+        for(int i = 0; i < altered.length; i++) {
+            chars[i] = altered[i];
+        }
+
+        return sb.toString().length();
     }
 
     public static void main(String[] args) {
         StringCompression solution = new StringCompression();
         String str_0 = "aabbcccccccccccccccccccccccdc";
-        char[] input = str_0.toCharArray();
-        System.out.println(solution.compress(input));
+        String str_1 = "abbccc";
+        String str_2 = "aa";
+        String str_3 = "abc";
+        char[] input = str_3.toCharArray();
+        int compressedLength = solution.compress2nd(input);
 
-        AtomicInteger number = new AtomicInteger(0);
-        solution.add(number);
-        System.out.println(number);
 
-        for(int m = 0; m < input.length; m++) {
+        for(int m = 0; m < compressedLength; m++) {
             String s = String.valueOf(input[m]);
             System.out.print(s);
         }
