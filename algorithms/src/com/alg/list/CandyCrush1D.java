@@ -1,7 +1,7 @@
 package com.alg.list;
 
 /**
- * 2020-02-25: Bloomberg
+ * 2021-02-25: Bloomberg
  * This is the same question like RemoveAllDupsInAdjStringII. I got interviewed with this question today and I didn't
  * finish it in 30 min bug free, meanwhile made a lot of trivial bugs like boundary check/ delete() start and end index
  * .etc, making a bad impression to interviewer. The fact that I can do this problem alone without time limit with IDE
