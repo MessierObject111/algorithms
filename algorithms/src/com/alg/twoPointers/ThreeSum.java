@@ -34,6 +34,40 @@ public class ThreeSum {
         return results;
     }
 
+    //2022-05-04
+    public List<List<Integer>> threeSum2(int[] nums) {
+        //if we iterate all the combinations, performance will be O(N^3)
+        //Reduce this problem by sorting it first, and then apply TwoSumII()
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        for(int i = 0; i < nums.length - 2; i++) {
+            //value of nums[i] here will be used for the target sum for the iteration;
+            //To avoid getting multiple duplicated result lines for the same sum, we need to skip dup nums[i] values
+            if(i == 0 || (i > 0 && nums[i - 1] != nums[i])) {
+                int low = i + 1, high =  nums.length - 1, target = -nums[i];
+                while(low < high) {
+                    if(nums[low] + nums[high] == target) {
+                        List<Integer> combo = new ArrayList<Integer>();
+                        combo.add(nums[i]);
+                        combo.add(nums[low]);
+                        combo.add(nums[high]);
+                        result.add(combo);
+                        //When dup values found for nums[low] or nums[high], skip them too
+                        while (low < high && nums[low] == nums[low+1]) low++;
+                        while (low < high && nums[high] == nums[high-1]) high--;
+                        low++; high--;
+                    } else if(nums[low] + nums[high] > target) {
+                        high--;
+                    } else if(nums[low] + nums[high] < target){
+                        low++;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
+
     public static void main(String[] args) {
         ThreeSum instance = new ThreeSum();
         int[] numbers = {1,0,-1,-1,-1,-1,0,1,1,1};
