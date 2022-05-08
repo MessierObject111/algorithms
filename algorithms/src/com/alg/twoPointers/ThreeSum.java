@@ -66,7 +66,6 @@ public class ThreeSum {
         }
         return result;
     }
-}
 
     public static void main(String[] args) {
         ThreeSum instance = new ThreeSum();
