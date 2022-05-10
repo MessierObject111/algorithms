@@ -75,20 +75,92 @@ public class RemoveAllDupsInAdjStringII {
         }
     }
 
+    /**
+     * 2022-03-21 Let's see how much I remember after a year...Probably nothing
+     * I peeked into previous code structure a little bit
+     * But still nowhere to solve it within 30 mins, it is totally fucked up
+     * I make unbelievable typos like single '&' in conditional blocks
+     * I wrote && instead of ||
+     * I suffered from a zillion bugs & fixes
+     *
+     * //2022-03-22: For fuck's sake, leetcode added an extra long test case that made my previous passed solution
+     * getting Time Limit Exceeded. The input string is as long as a damn novel
+     */
+    static class AttemptIII {
+        public String removeDuplicates(String s, int k) {
+            String result = removeAndConcat(s, k);
+            return result;
+        }
+
+        private String removeAndConcat(String s, int k) {
+            if(s.length() < k) return s;
+            boolean needScan = true;
+            while(needScan) {
+                for(int i = 1, counter = 1; i < s.length(); i++)
+                {
+//                    System.out.println("Compare "+ s.charAt(i - 1) + " - " + s.charAt(i) + " , counter:" + counter);
+                    if(s.charAt(i - 1) == s.charAt(i)) {
+                        counter++;
+                        if(counter == k) {
+                            s = s.substring(0, i + 1 - k) + s.substring(i + 1);
+//                            System.out.println(" concated: " + s);
+                            needScan = true;
+                            break;
+                        }
+                    }else if(s.charAt(i - 1) != s.charAt(i)){
+                        counter = 1;
+                        if(i == s.length()-1 || s.length() <= 1) {
+                            needScan = false;
+                        }
+                    }
+                }
+                if(s.length() <= k) {
+                    needScan = false;
+                }
+            }
+            return s;
+        }
+    }
+
 
     public static void main(String[] args) {
-        String input_1 = "abcccbbbc";
-        String input_2 = "aazaabbbbbz";
-        String input_3 = "pbbcggttciiippooaais";//"ps" "is"
+        String input_1 = "abcccbbbc";//3 "abc"
+        String input_2 = "aazaabbz";//2 ""
+        String input_3 = "pbbcggttciiippooaais";//2 "ps"
+        String input_4 = "deeedbbcccbdaa";
+        String input_5 = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmn";
 
-        RemoveAllDupsInAdjStringII solution = new RemoveAllDupsInAdjStringII();
-        System.out.println(solution.removeDuplicates(input_1, 3));
 
-        RemoveAllDupsInAdjStringII.AttemptII sol2 = new AttemptII();
-        System.out.println(sol2.removeDuplicates(input_1, 3));
-
-        System.out.println(sol2.removeDuplicates(input_2, 3));
-        System.out.println(sol2.removeDuplicates(input_3, 2));
+//        RemoveAllDupsInAdjStringII solution = new RemoveAllDupsInAdjStringII();
+//        System.out.println("Test solution 1:");
+//        System.out.println(solution.removeDuplicates(input_1, 3));
+//        System.out.println(solution.removeDuplicates(input_2, 2));
+//        System.out.println(solution.removeDuplicates(input_3, 2));
+//
+//        //Note: Solution 2 did not implement as problem required.
+//        System.out.println("Test solution 2:");
+//        RemoveAllDupsInAdjStringII.AttemptII sol2 = new AttemptII();
+//        System.out.println(sol2.removeDuplicates(input_1, 3));
+//
+//        System.out.println(sol2.removeDuplicates(input_2, 2));
+//        System.out.println(sol2.removeDuplicates(input_3, 2));
         //My logic will result to "is" as 3rd example's result, but it tells me it should be "ps" and I don't understand why
+        // Note: 2022-03-21: The reason is the requirement is to immediately remove any know string that reaches k
+        // repeating characters, rather than ALL the k+ repeating characters.
+        // e.g removeDuplicates("aaab", 2) should return "ab" after removing first 2 'a's, rather than removing all 'a's
+
+        System.out.println("Test solution 3:");
+        RemoveAllDupsInAdjStringII.AttemptIII sol3 = new AttemptIII();
+//        System.out.println(sol3.removeDuplicates(input_1, 3));
+//        System.out.println(sol3.removeDuplicates(input_2, 2));
+//        System.out.println(sol3.removeDuplicates(input_3, 2));
+//        System.out.println(sol3.removeDuplicates(input_4, 3));
+        System.out.println(sol3.removeDuplicates(input_5, 2));
+
+//        String s = "0123456789";
+//        System.out.println(s.substring(0,5));
+//        System.out.println(s.substring(5));
+//        s= s.substring(0,3) + s.substring(5);
+//        System.out.println(s);
     }
 }
