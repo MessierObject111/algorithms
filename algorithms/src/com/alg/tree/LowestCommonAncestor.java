@@ -63,6 +63,36 @@ public class LowestCommonAncestor {
 
     }
 
+    /**
+     * 2022-05-16 Attempted again, have zero idea of the answer I did before and had to read answer for O(N) solution :(
+     * When thinking about recursive functions to calculate sum/find a target etc,
+     * Consider the possibility of having a global object to store the result.
+     **/
+    private TreeNode ans;
+
+    public TreeNode lowestCommonAncestorII(TreeNode root, TreeNode p, TreeNode q) {
+        search(root, p, q);
+        return ans;
+    }
+
+    private boolean search(TreeNode node, TreeNode p, TreeNode q) {
+        if(node == null) return false;
+        boolean left = search(node.left, p, q);
+        boolean right = search(node.right, p, q);
+        if(node == p || node == q || left || right) {
+            if( (left && right) ||
+                    (left && node == p) ||
+                    (left && node == q) ||
+                    (right && node == p) ||
+                    (right && node == q)) {
+                ans = node;
+            }
+            return true;
+        }
+        return false;
+    }
+    //=======================================
+
     public static void main(String[] args) {
         LowestCommonAncestor instance = new LowestCommonAncestor();
 
