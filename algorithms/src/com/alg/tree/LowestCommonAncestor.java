@@ -2,6 +2,8 @@ package com.alg.tree;
 
 import com.alg.common.TreeNode;
 
+import java.util.*;
+
 /**
  * 88. Lowest Common Ancestor of a Binary Tree
  * Divide & Conquer
@@ -68,6 +70,7 @@ public class LowestCommonAncestor {
      * When thinking about recursive functions to calculate sum/find a target etc,
      * Consider the possibility of having a global object to store the result.
      **/
+    //Solution 2 ==================================================================
     private TreeNode ans;
 
     public TreeNode lowestCommonAncestorII(TreeNode root, TreeNode p, TreeNode q) {
@@ -93,9 +96,51 @@ public class LowestCommonAncestor {
     }
     //=======================================
 
+    //Solution 3 ==================================================================
+    public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode p, TreeNode q) {
+        //Traverse by level: hold each level's nodes
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        //Map to keep track of each node's parent node
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+
+        stack.push(root);
+        map.put(root, null);
+
+
+        //When existing parent map does not contain both p & q, keep drilling until it does
+        while(!(map.containsKey(p) && map.containsKey(q))) {
+            TreeNode node = stack.pop();
+
+            if(node.left != null) {
+                map.put(node.left, node);
+                stack.push(node.left);
+            }
+
+            if(node.right != null) {
+                map.put(node.right, node);
+                stack.push(node.right);
+            }
+        }
+
+        Set<TreeNode> set = new HashSet<TreeNode>();
+        set.add(p);
+        TreeNode pParent = p;
+        while(pParent != null) {
+            set.add(pParent);
+            pParent = map.get(pParent);
+        }
+
+        TreeNode qParent = q;
+        while(!set.contains(qParent)) {
+            qParent = map.get(qParent);
+        }
+
+        return qParent;
+    }
+
     public static void main(String[] args) {
         LowestCommonAncestor instance = new LowestCommonAncestor();
-
+        //==================Test Case 1=====================
         TreeNode node_1 = new TreeNode(-1);
         TreeNode node_2 = new TreeNode(-2);
         TreeNode node_3 = new TreeNode(-3);
@@ -128,6 +173,14 @@ public class LowestCommonAncestor {
         node_7.left = node_14;
         node_7.right = node_15;
         node_8.left = node_16;
-        System.out.println(instance.lowestCommonAncestor(node_1, node_5, node_7).val);
+        System.out.println(instance.lowestCommonAncestor3(node_1, node_5, node_7).val);//-1 expected;
+
+        //==================Test Case 2=====================
+        TreeNode tc2_root = new TreeNode(1);
+        TreeNode tc2_left = new TreeNode(2);
+
+        tc2_root.left = tc2_left;
+
+        System.out.println(instance.lowestCommonAncestor3(tc2_root, tc2_left, tc2_root).val);//1 expected;
     }
 }
