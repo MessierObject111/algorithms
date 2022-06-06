@@ -94,6 +94,27 @@ public class LowestCommonAncestor {
         }
         return false;
     }
+
+    //Solution II version 2 ============================================================
+    //This version better organized the boolean logic ion the if block
+    private TreeNode res;
+    public TreeNode lowestCommonAncestorIIv2(TreeNode root, TreeNode p, TreeNode q){
+        dfs(root, p, q);
+        return res;
+    }
+
+    private boolean dfs(TreeNode node, TreeNode p, TreeNode q) {
+        if(node == null) return false;
+        boolean left = dfs(node.left, p, q);
+        boolean right = dfs(node.right, p, q);
+        if( ((left || right) && ((node == p) || (node == q))) ||
+                (left && right) ) {
+            res = node;
+        }
+
+        if(left || right || node == p || node == q) return true;
+        return false;
+    }
     //=======================================
 
     //Solution 3 ==================================================================
@@ -173,7 +194,7 @@ public class LowestCommonAncestor {
         node_7.left = node_14;
         node_7.right = node_15;
         node_8.left = node_16;
-        System.out.println(instance.lowestCommonAncestor3(node_1, node_5, node_7).val);//-1 expected;
+        System.out.println(instance.lowestCommonAncestorIIv2(node_1, node_5, node_7).val);//-1 expected;
 
         //==================Test Case 2=====================
         TreeNode tc2_root = new TreeNode(1);
@@ -181,6 +202,6 @@ public class LowestCommonAncestor {
 
         tc2_root.left = tc2_left;
 
-        System.out.println(instance.lowestCommonAncestor3(tc2_root, tc2_left, tc2_root).val);//1 expected;
+        System.out.println(instance.lowestCommonAncestorIIv2(tc2_root, tc2_left, tc2_root).val);//1 expected;
     }
 }
