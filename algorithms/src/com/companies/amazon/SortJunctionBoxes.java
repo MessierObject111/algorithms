@@ -21,6 +21,20 @@ public class SortJunctionBoxes {
                 return o1version.compareTo(o2version) == 0 ? o1name.compareTo(o2name): o1version.compareTo(o2version);
             }
         });
+
+        //New way of implementing a PriorityQueue with Lambda
+        PriorityQueue<String> sortCustomString = new PriorityQueue<>((o1, o2)->{
+            int index1 = o1.indexOf(" ");
+            String o1version = o1.substring(index1);
+            String o1name = o1.split(" ")[0];
+
+            int index2 = o2.indexOf(" ");
+            String o2version = o2.substring(index2);
+            String o2name = o2.split(" ")[0];
+
+            return o1version.compareTo(o2version) == 0 ? o1name.compareTo(o2name): o1version.compareTo(o2version);
+        });
+
         for(String nameVersion : junctionBoxNameVersion) {
             queue.add(nameVersion);
         }
