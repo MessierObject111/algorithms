@@ -1,48 +1,24 @@
 package com.companies.meta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class KClosestPointsToOrigin {
     public int[][] kClosest(int[][] points, int k) {
-        List<Point> list = new ArrayList<Point>();
-        for(int i = 0; i < points.length; i++) {
-            int[] point = points[i];
-            Point p = new Point(point);
-            list.add(p);
-        }
-        Collections.sort(list);
-        List<Point> top = new ArrayList<Point>();
-        for(int i = k; i > 0; i--) {
-            top.add(list.get(i-1));
-        }
         int[][] res = new int[k][2];
-        for(int i = 0; i < k; i++) {
-            int[] p = top.get(i).coordinates;
-            res[i][0] = p[0];
-            res[i][1] = p[1];
+        PriorityQueue<int[]> maxQueue = new PriorityQueue<>((a, b)->squareDistance(a)-squareDistance(b));
+        //Same as new PriorityQueue<>(Comparator.comparingInt(this::squareDistance));
+        for(int i = 0; i < points.length; i++) {
+            maxQueue.add(points[i]);
+        }
+        for(int i = 0; i < k; i++){
+            int[] p = maxQueue.poll();
+            res[i] = p;
         }
         return res;
     }
 
-    class Point implements Comparable{
-        public int[] coordinates;
-
-        public Point (int[] coordinates) {
-            this.coordinates = coordinates;
-        }
-
-        public int getDistance() {
-            return coordinates[0]*coordinates[0] + coordinates[1]*coordinates[1];
-        }
-
-        @Override
-        public int compareTo(Object o) {
-            Point p = (Point) o;
-            return getDistance() - p.getDistance();
-        }
+    private int squareDistance(int[] p) {
+        return p[0]*p[0] + p[1]*p[1];
     }
 
     public static void main(String[] args) {
