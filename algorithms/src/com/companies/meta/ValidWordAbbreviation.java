@@ -1,5 +1,9 @@
 package com.companies.meta;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class ValidWordAbbreviation {
     public boolean validWordAbbreviation(String word, String abbr) {
         int i = 0;
@@ -40,6 +44,28 @@ public class ValidWordAbbreviation {
         return total == word.length();
     }
 
+    //https://leetcode.com/problems/valid-word-abbreviation/discuss/89523/Short-and-easy-to-understand-Java-Solution
+    public boolean validWordAbbreviationII(String word, String abbr) {
+        int i = 0, j = 0;
+        while (i < word.length() && j < abbr.length()) {
+            if (word.charAt(i) == abbr.charAt(j)) {
+                ++i;++j;
+                continue;
+            }
+            if (abbr.charAt(j) <= '0' || abbr.charAt(j) > '9') {
+                return false;
+            }
+            int start = j;
+            while (j < abbr.length() && abbr.charAt(j) >= '0' && abbr.charAt(j) <= '9') {
+                ++j;
+            }
+            int num = Integer.valueOf(abbr.substring(start, j));
+            i += num;
+        }
+        return i == word.length() && j == abbr.length();
+    }
+
+
     public static void main(String[] args) {
         ValidWordAbbreviation sol = new ValidWordAbbreviation();
         String s1 = "hi";
@@ -49,5 +75,9 @@ public class ValidWordAbbreviation {
         System.out.println(sol.validWordAbbreviation(
                 "internationalization",
                 "i12iz4n")); //true
+
+        ConcurrentHashMap<String, Set<String>> map = new ConcurrentHashMap<>();
+        Set<String> set = new HashSet<>();
+        map.put("1", set);
     }
 }
