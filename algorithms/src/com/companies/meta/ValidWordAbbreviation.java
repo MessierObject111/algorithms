@@ -75,9 +75,6 @@ public class ValidWordAbbreviation {
         System.out.println(sol.validWordAbbreviation(
                 "internationalization",
                 "i12iz4n")); //true
-
-        ConcurrentHashMap<String, Set<String>> map = new ConcurrentHashMap<>();
-        Set<String> set = new HashSet<>();
-        map.put("1", set);
+        
     }
 }
