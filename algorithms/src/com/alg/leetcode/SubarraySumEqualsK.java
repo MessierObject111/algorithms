@@ -48,18 +48,23 @@ public class SubarraySumEqualsK {
     }
 
     public int subarraySumCumulative(int[] nums, int k) {
-        int total = 0;
-        int[] cumulativeMap = new int[nums.length + 1];
-        for(int i = 1; i <= nums.length; i++)
-            cumulativeMap[i] = cumulativeMap[i - 1] + nums[i - 1];
-        for(int start = 0; start< nums.length; start++) {
-            for(int end = start+1; end <= nums.length; end++) {
-                if(cumulativeMap[end] - cumulativeMap[start] == k) {
-                    total++;
-                }
+        int[] sums = new int[nums.length + 1];
+        sums[0] = 0;
+        int res = 0;
+        for(int i = 0; i<nums.length; i++) {
+            sums[i+1] = sums[i] + nums[i];
+            //System.out.println("sums["+(i+1)+"]: "+sums[i+1]);
+        }
+
+        for(int i = 0; i < sums.length - 1; i++) {
+            //System.out.println("i: "+i + " nums length: "+ nums.length);
+            for(int j = i+1; j < sums.length; j++) {
+                int diff = sums[j] - sums[i];
+                //System.out.println("i: "+i+" j: "+ j + " diff:"+diff);
+                if(diff == k) res++;
             }
         }
-        return total;
+        return res;
     }
 
     public static void main (String[] args) {
