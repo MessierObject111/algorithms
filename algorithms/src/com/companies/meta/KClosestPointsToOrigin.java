@@ -21,6 +21,21 @@ public class KClosestPointsToOrigin {
         return p[0]*p[0] + p[1]*p[1];
     }
 
+    //=========================================================================
+    public int[][] kClosestII(int[][] points, int k) {
+        // Sort the array with a custom lambda comparator function
+        Arrays.sort(points, (a, b) -> squaredDistance(a) - squaredDistance(b));
+
+        // Return the first k elements of the sorted array
+        return Arrays.copyOf(points, k);
+    }
+
+    private int squaredDistance(int[] point) {
+        // Calculate and return the squared Euclidean distance
+        return point[0] * point[0] + point[1] * point[1];
+    }
+
+    //=========================================================================
     public static void main(String[] args) {
         int[][] points = {{7, 3}, {5, -6}, {-3, -4}, {-1, 3}};
         int k = 2;
