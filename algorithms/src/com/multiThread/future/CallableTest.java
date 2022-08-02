@@ -39,6 +39,10 @@ public class CallableTest {
         // Both callables are sharing single counter with an AtomicLong
 
         //TODO: Why I am getting weird results that one of future1 / future2 will get number that is less than 2000,000?
+        //Answer: This code will submit 2 runnable tasks that each responsible for adding the shared counter 1M times,
+        // in random order. e.g. r1-r2-r1-r1-r1-r2 .... until both has occurred 1M times. It is possible that when r1
+        // showed 1M times, r2 has only ran 774,630 times - So the counter at this time will return
+        // 1M + 774630 = 1774630 when r1 future received the return value; thus future for r1 will record this value.
 
         try {
             // Will be executed by main thread
