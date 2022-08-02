@@ -1,5 +1,7 @@
 package com.multiThread.future;
 
+import com.java.se.inheritancePolymorphism.question9.A;
+
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -73,8 +75,20 @@ public class CallableTest {
         }
 
 
-        System.out.println("=====================Test 3===========================");
-        FutureTask<Long> futureTask = new FutureTask<>(callable1);
+        System.out.println("=====================Test 3: FutureTask ===========================");
+        AtomicLong num = new AtomicLong(0);
+        Callable callableTask3 = new Callable() {
+            @Override
+            public Object call() throws Exception {
+                while (num.intValue() < 5) {
+                    System.out.println("Current num:" + num.intValue());
+                    num.addAndGet(1);
+                    Thread.sleep(1000);
+                }
+                return num.longValue();
+            }
+        };
+        FutureTask<Long> futureTask = new FutureTask<>(callableTask3);
         Thread t = new Thread(futureTask);
         t.start();
 // …
