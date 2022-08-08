@@ -91,10 +91,10 @@ public class CallableTest {
         FutureTask<Long> futureTask = new FutureTask<>(callableTask3);
         Thread t = new Thread(futureTask);
         t.start();
-// …
         try {
             Long result = futureTask.get(); // will wait for the async completion
             System.out.println(result);
+            System.out.println("I am last line!");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
