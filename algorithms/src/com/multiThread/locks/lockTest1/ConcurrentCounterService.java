@@ -2,6 +2,8 @@ package com.multiThread.locks.lockTest1;
 
 import com.java.se.inheritancePolymorphism.question9.C;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,6 +23,7 @@ public class ConcurrentCounterService {
         this.count_1 = time;
     };
 
+    //Second solutionL lighter weight object monitor
     private int count_2;
     Object lock = new Object();
 
@@ -35,6 +38,7 @@ public class ConcurrentCounterService {
         }
     }
 
+    //Third solution is ReentrantLock
     private int count_3;
     Lock reentrantLock = new ReentrantLock();
 
@@ -89,24 +93,78 @@ public class ConcurrentCounterService {
 //        System.out.println("Final count_1: " + counterService.getCount_1());
 
 
-        ExecutorService WORKER_THREAD_POOL
+//Test 1 =========================================
+        ExecutorService workerPool
                 = Executors.newFixedThreadPool(10);
-        CountDownLatch latch2 = new CountDownLatch(2);
-        for (int i = 0; i < 2; i++) {
-            WORKER_THREAD_POOL.submit(() -> {
+        CountDownLatch latch = new CountDownLatch(5);
+        Instant start = Instant.now();
+
+        for (int i = 0; i < 5; i++) {
+            workerPool.submit(() -> {
                 // ...
                 System.out.println(Thread.currentThread() + " started counting...");
                 for(int j = 0; j < 100; j++) {
                     int newVal = counterService.getCount_1() + 1;
                     counterService.setCount_1(newVal);
                 }
-                latch2.countDown();
+                latch.countDown();
             });
         }
+        // wait for the latch to be decremented by the 5 remaining threads
+        latch.await();
 
-// wait for the latch to be decremented by the two remaining threads
-        latch2.await();
-        System.out.println("Final count_1: " + counterService.getCount_1());
+        Instant finish = Instant.now();
+        long timeElapsed = Duration.between(start, finish).toMillis();
+
+        System.out.println("Final count_1: " + counterService.getCount_1() + " timeElapsed:" + timeElapsed);
+
+
+//Test 2=========================================
+        CountDownLatch latch_2 = new CountDownLatch(5);
+        Instant start_2 = Instant.now();
+
+        for (int i = 0; i < 5; i++) {
+            workerPool.submit(() -> {
+                // ...
+                System.out.println(Thread.currentThread() + " started counting...");
+                for(int j = 0; j < 100; j++) {
+                    int newVal = counterService.getCount_2() + 1;
+                    counterService.setCount_2(newVal);
+                }
+                latch_2.countDown();
+            });
+        }
+        // wait for the latch to be decremented by the 5 remaining threads
+        latch_2.await();
+
+        Instant finish_2 = Instant.now();
+        long timeElapsed_2 = Duration.between(start_2, finish_2).toMillis();
+
+        System.out.println("Final count_2: " + counterService.getCount_2() + " timeElapsed:" + timeElapsed_2);
+
+
+//Test 3=========================================
+        CountDownLatch latch_3 = new CountDownLatch(5);
+        Instant start_3 = Instant.now();
+
+        for (int i = 0; i < 5; i++) {
+            workerPool.submit(() -> {
+                // ...
+                System.out.println(Thread.currentThread() + " started counting...");
+                for(int j = 0; j < 100; j++) {
+                    int newVal = counterService.getCount_1() + 1;
+                    counterService.setCount_1(newVal);
+                }
+                latch_3.countDown();
+            });
+        }
+        // wait for the latch to be decremented by the 5 remaining threads
+        latch_3.await();
+
+        Instant finish_3 = Instant.now();
+        long timeElapsed_3 = Duration.between(start_3, finish_3).toMillis();
+
+        System.out.println("Final count_3: " + counterService.getCount_1() + " timeElapsed:" + timeElapsed_3);
         System.exit(0);
     }
 }
