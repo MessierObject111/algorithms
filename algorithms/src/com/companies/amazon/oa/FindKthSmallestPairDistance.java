@@ -2,7 +2,6 @@ package com.companies.amazon.oa;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -74,29 +73,40 @@ public class FindKthSmallestPairDistance {
     public int smallestDistancePair(int[] arr, int k) {
         Arrays.sort(arr);
         int n = arr.length;
-        int lowerBound = 0; int higherBound = arr[n - 1] - arr[0];
+        int lowerDistBound = 0; //The lowest possible distance for all pairs;
+        int higherDistBound = arr[n - 1] - arr[0]; //The highest possible distance for all pairs;
         int ans = -1;
 
-        while(lowerBound <= higherBound){
-            int m = lowerBound + (higherBound-lowerBound)/2;
+        //Binary search template
+        while(lowerDistBound <= higherDistBound){
+            int m = lowerDistBound + (higherDistBound-lowerDistBound)/2;
+
             System.out.println("==============Binary Search Round=================");
-            System.out.println("lowerBound: "+lowerBound+ " middle: "+ m + " higherBound:"+higherBound);
-            int count = numOfPairDistGreaterThanM(arr, m);
-            System.out.println("count: " +count);
+            System.out.println("lowerDistBound: "+lowerDistBound+ " middle: "+ m + " higherDistBound:"+higherDistBound);
+
+            int count = numOfPairsWithDistanceGreaterThanM(arr, m);
+
+            System.out.println("count of pairs with distance greater than "+ m +": " + count + " count >= "+ k + " ? " + (count >= k));
             // Criteria for binary search: If count is greater than k, search left half;
-            // else search right half, until lowerBound > higherBound
+            // else search right half, until lowerDistBound > higherDistBound
+
             if(count >= k) {
                 ans = m;
-                higherBound = m - 1;
+                higherDistBound = m - 1;
             } else {
-                lowerBound = m + 1;
+                lowerDistBound = m + 1;
             }
         }
         return ans;
     }
 
-
-    public static int numOfPairDistGreaterThanM(int [] arr, int m){
+    /**
+     * Count the number of pairs in arr with distance more than m
+     * @param arr
+     * @param m
+     * @return
+     */
+    public static int numOfPairsWithDistanceGreaterThanM(int [] arr, int m){
         int left = 0;
         int right = 1;
         int count = 0;
@@ -116,8 +126,35 @@ public class FindKthSmallestPairDistance {
     }
 
     public static void main(String[] args) {
-        int[] inputArr = {1, 1, 3, 4};
-        int k = 2;
+        int[] inputArr = {1, 4, 3, 1};
+        int k = 3;
+        /**
+         * Explanation of this algorithm with brute force:
+         * This example will give \
+         * you a original array - sort it, {1,1,3,4}; takes O(N * log(N)) time
+         * Then we can have all possible pairs, and put them in an array with length = N*(N-1)/2
+         * {
+         * {1, 1}, {1, 3}, {1, 4},
+         *         {1, 3}, {1, 4},
+         *                 {3, 4}
+         * }
+         * If we use brute force, we need to calculate their distances:
+         * {0, 2, 3, 2, 3, 1}
+         * After sorting, it became
+         * {0, 1, 2, 2, 3, 3}
+         * And now we can just grab whichever kth element as we please.
+         *
+         *
+         *
+         * Explanation of this algorithm with binary search:
+         * The sorted array {1,1,3,4} has least value on left, 1; and largest valu on the right, 4;
+         * thus, we know for sure that the largest distance we can have here is higherBound = 4-1 = 3.
+         * Meanwhile, we know the smallest distance we can have cannot be smaller than 0.
+         * So, we can do binary search by setting the middle point of the all possible distances:
+         * mid point = (higherBound - lowerBound)/2
+         * and search for all pairs
+         *
+         */
         FindKthSmallestPairDistance sol = new FindKthSmallestPairDistance();
         System.out.println("Result (Brute): " + sol.smallestDistancePairBrute(inputArr, k));
         System.out.println("Result (Binary Search): " + sol.smallestDistancePair(inputArr, k));
