@@ -1,4 +1,4 @@
-package com.companies.amazon;
+package com.companies.amazon.oa;
 //https://leetcode.com/discuss/interview-question/1692832/amazon-online-first-round-sde
 
 /**
