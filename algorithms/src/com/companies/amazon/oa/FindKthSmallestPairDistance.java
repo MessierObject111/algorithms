@@ -156,7 +156,13 @@ public class FindKthSmallestPairDistance {
          *
          */
         FindKthSmallestPairDistance sol = new FindKthSmallestPairDistance();
-        System.out.println("Result (Brute): " + sol.smallestDistancePairBrute(inputArr, k));
-        System.out.println("Result (Binary Search): " + sol.smallestDistancePair(inputArr, k));
+//        System.out.println("Result (Brute): " + sol.smallestDistancePairBrute(inputArr, k));
+//        System.out.println("Result (Binary Search): " + sol.smallestDistancePair(inputArr, k));
+
+
+        int[] inputArr2 = {1, 4, 3, 7, 9, 0, 2, 6, 8, 5};
+        int k2 = 7;
+
+        System.out.println("Result (Binary Search): " + sol.smallestDistancePair(inputArr2, k2));
     }
 }
