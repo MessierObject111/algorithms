@@ -2,6 +2,7 @@ package com.alg.divideConquer;
 
 import com.alg.common.TreeNode;
 
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -88,6 +89,42 @@ public class ValidateBinarySearchTree {
         return result;
     }
 
+    //After 5 years, I forgot everything about the original solution which use vertical-order traversal to judge if this is BST
+    // I came up with a solution that use DFS, which use less memory
+    public boolean isValidBSTIII(TreeNode root) {
+        BigInteger bLeft = new BigInteger(String.valueOf(Integer.MIN_VALUE)).subtract(BigInteger.valueOf(1));
+        BigInteger bRight = new BigInteger(String.valueOf(Integer.MAX_VALUE)).add(BigInteger.valueOf(1));
+        boolean left = root.left == null ? true : dfs(root.left, bLeft, new BigInteger(String.valueOf(root.val)));
+        boolean right = root.right == null ? true :dfs(root.right, new BigInteger(String.valueOf(root.val)), bRight);
+        return left && right;
+    }
+    // Asking for Binary Search Tree, not 'Balanced' BST! 2022-08-28
+    private boolean dfs(TreeNode node, BigInteger min, BigInteger max) {
+        //If current value does not fall into the range, return false immediately
+        System.out.println("********************** node: " + node.val + " range: " + min.toString() + " - " + max.toString());
+        if(min.compareTo(new BigInteger(String.valueOf(node.val))) < 0 && max.compareTo(new BigInteger(String.valueOf(node.val))) > 0) {
+            //If current node is a leaf, return true
+            if(node.left == null && node.right == null) {
+                System.out.println("Leaf: " + node.val);
+                return true;
+            } else {
+                boolean l = true; boolean r = true;
+                if(node.left != null) {
+                    System.out.println("Going left: ") ;
+                    l = dfs(node.left, min, new BigInteger(String.valueOf(node.val)));
+                }
+                if(node.right != null) {
+                    System.out.println("Going right: ") ;
+                    r = dfs(node.right, new BigInteger(String.valueOf(node.val)), max);
+                }
+                return l && r;
+            }
+
+        }
+        System.out.println("Return false: " + node.val + " range: " + min.toString() + " - " + max.toString());
+        return false;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(5);
 
@@ -124,6 +161,10 @@ public class ValidateBinarySearchTree {
  *     1   3 6   7
  */
         ValidateBinarySearchTree instance = new ValidateBinarySearchTree();
-        System.out.println(instance.isValidBST(root));//Expects True
+        System.out.println(instance.isValidBSTIII(root));//Expects True
+
+        BigInteger one = new BigInteger(String.valueOf(1));
+        BigInteger two = new BigInteger(String.valueOf(2));
+        System.out.println(one.compareTo(two));
     }
 }
