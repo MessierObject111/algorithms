@@ -32,6 +32,25 @@ public class BinarySearch {
         return l;
     }
 
+    //2022-10-11: Fuck, I have zero impression of committing to this problem back at 2 months ago...Maybe I didn't commit
+    //on the day I finished it, and only committed it months after?
+
+    public int searchII(int[] nums, int target) {
+        if(target < nums[0] || target > nums[nums.length-1]) return -1;
+
+        return recursiveSearchII(nums, target, 0, nums.length-1);
+    }
+
+    private int recursiveSearchII(int[] nums, int target, int left, int right) {
+        if(left == right){
+            return target == nums[left] ? left : -1;
+        }
+        int pivot = left + (right-left)/2;
+        if(nums[pivot] == target) return pivot;
+        if(target < nums[pivot]) return recursiveSearchII(nums, target, 0, pivot - 1);
+        return recursiveSearchII(nums, target, pivot + 1, right);
+    }
+
     public static void main(String[] args) {
         int[] arr = new int[100];
         for(int i = 0; i < 100; i++) {
