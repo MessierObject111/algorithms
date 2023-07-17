@@ -9,14 +9,15 @@ public class InOrderTraversal {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
         if(root == null) return list;
-        inorder(root, list);
+        helper(root, list);
         return list;
     }
 
-    private void inorder(TreeNode node, List<Integer> list) {
-        if(node == null) return;
-        inorder(node.left, list);
-        list.add(node.val);
-        inorder(node.right, list);
+    private void helper(TreeNode node, List<Integer> list){
+        if(node!=null) {
+            helper(node.left, list);
+            list.add(node.val);
+            helper(node.right, list);
+        }
     }
 }
