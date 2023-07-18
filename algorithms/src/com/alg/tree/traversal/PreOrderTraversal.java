@@ -1,4 +1,4 @@
-package com.alg.tree;
+package com.alg.tree.traversal;
 import com.alg.common.TreeNode;
 
 import java.util.ArrayList;
