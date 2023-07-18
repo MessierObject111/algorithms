@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/description/
 public class SerializeDeserializeNTree {
     class Node {
         public int val;
@@ -20,48 +21,80 @@ public class SerializeDeserializeNTree {
             children = _children;
         }
     };
+
+    //This is nothing but a counter, an object containing a int so it
+    // can be shared across function calls to keep track of current index/state.
+    class WrappableInt {
+        private int value;
+        public WrappableInt(int x) {
+            this.value = x;
+        }
+        public int getValue() {
+            return this.value;
+        }
+        public void increment() {
+            this.value++;
+        }
+    }
+
     // Encodes a tree to a single string.
     public String serialize(Node root) {
         StringBuilder sb = new StringBuilder();
+        if(root == null) return "";
         dfp(root, sb);
         return sb.toString();
     }
 
     private void dfp(Node node, StringBuilder sb) {
-//        if(node != null) {
-//            sb.append(node.val).append(",");
-//        } \
-        sb.append(node.val).append(",");
+        if(node != null) {
+            sb.append(node.val).append(",");
+        } else {
+            return;
+        }
+        //sb.append(node.val).append(",");
 
         if(node.children != null) {
             node.children.stream().forEach(n -> {
                 dfp(n, sb);
             });
-            sb.append("null").append(",");
+            sb.append("#").append(",");
         } else {
-            sb.append("null").append(",");
+            sb.append("#").append(",");
             return;
         }
     }
 
     // Decodes your encoded data to tree.
     public Node deserialize(String data) {
-        Node root = new Node();
+        if(data == null || data.equals("")) return null;
         List<String> list = Arrays.asList(data.split(","));
-        buildTree(root, list, 0);
+        Node root = buildTreeRecursive(list, new WrappableInt(0));
         return root;
     }
 
-    private void buildTree(Node node, List<String> list, int index) {
-//        String val = list.get(index);
-//        if(val.equals("null")) {
-//            return;
-//        }
-//        node.val = Integer.valueOf(val);
-//        List<Integer> children = new ArrayList<>();
-//        //for(int i = 0; i < )
-//        buildTree();
+    private Node buildTreeRecursive(List<String> list, WrappableInt index) {
+        if(index.getValue() == list.size()) {
+            return null;
+        }
+        Node node;
+        if(list.get(index.getValue()).equals("#")) {
+            //System.out.println("reaching leaf, return;");
+            return null;
+        } else {
+            node = new Node(Integer.valueOf(list.get(index.getValue())));
+            //System.out.println("node created: " + list.get(index.getValue()) + " index:" + index);
+        }
+        node.children = new ArrayList<>();
+        index.increment();
+        while(!list.get(index.getValue()).equals("#") && index.getValue() < list.size()) {
+            //System.out.println("add children node for "+ list.get(index.getValue()) +", index:" + (index.getValue()));
+            node.children.add(buildTreeRecursive(list, index));
+        }
+        //System.out.println("# met; going up one level");
+        index.increment();
+        return node;
     }
+
 
     public void test() {
         Node root = new Node(0);
@@ -86,8 +119,10 @@ public class SerializeDeserializeNTree {
 
         String res = serialize(root);
         System.out.println(res);
+        Node tree = deserialize(res);
         //0,1,4,null,5,null,2,null,3,null,
         //
+        System.out.println("Done");
     }
     public static void main(String[] args) {
         SerializeDeserializeNTree sol = new SerializeDeserializeNTree();
