@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
- * 
+ *
  */
 public class SerializeDeserializeBinaryTree {
     public String serialize(TreeNode root) {
