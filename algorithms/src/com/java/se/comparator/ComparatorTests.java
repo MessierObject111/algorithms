@@ -8,6 +8,7 @@ public class ComparatorTests {
         Integer[] array = {3, 5, 9, 2, 1, 7, 8, 0, 4, 6};
         int[][] intervals = {{0,30},{5,10},{15,20}};
         //1. Comparator with Arrays.sort()
+        //Same as Arrays.sort(array, (a, b)-> b - a);
         Arrays.sort(array, new Comparator<Integer>(){
             @Override
             public int compare(Integer a, Integer b) {
