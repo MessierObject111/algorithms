@@ -1,4 +1,4 @@
-package com.multiThread;
+package com.multiThread.forkJoinPool;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
