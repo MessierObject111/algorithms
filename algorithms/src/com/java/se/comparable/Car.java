@@ -6,11 +6,13 @@ public class Car {
     private String manufacturer;
     private int mileage;
     private String color;
+    private double price;
 
-    public Car(String manufacturer, int mileage, String color) {
+    public Car(String manufacturer, int mileage, String color, double price) {
         this.manufacturer = manufacturer;
         this.mileage = mileage;
         this.color = color;
+        this.price = price;
     }
 
     public String getManufacturer() {
@@ -35,5 +37,13 @@ public class Car {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
